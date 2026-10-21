@@ -1,0 +1,216 @@
+{
+  "date": "2026-10-20",
+  "version": "0.6.0",
+  "environment": "Isolated Chrome for Testing 148.0.7778.96; localhost synthetic resources, no real accounts",
+  "daily_chrome_status": "0.6.1 redirect-fix update installed and verified using two fresh SSO jumps without group Headers",
+  "functional_checks_passed": 28,
+  "cases": {
+    "before": {
+      "label": "0.5.2",
+      "browser": "148.0.7778.96",
+      "assets": 96,
+      "unrelated_fake_cookies": 0,
+      "runs": 5,
+      "initial_group_open_wall_ms": 246.0,
+      "cache": "assets public, max-age=3600; same URLs reused",
+      "samples": {
+        "ordinary": [
+          {
+            "wall_ms": 40.9,
+            "server_asset_requests": 0,
+            "dom_ms": 8.699999988079071,
+            "load_ms": 8.899999976158142,
+            "resources": 96,
+            "network_resources": 0
+          },
+          {
+            "wall_ms": 43.1,
+            "server_asset_requests": 0,
+            "dom_ms": 8.900000005960464,
+            "load_ms": 8.900000005960464,
+            "resources": 96,
+            "network_resources": 0
+          },
+          {
+            "wall_ms": 48.7,
+            "server_asset_requests": 0,
+            "dom_ms": 14.399999976158142,
+            "load_ms": 14.5,
+            "resources": 96,
+            "network_resources": 0
+          },
+          {
+            "wall_ms": 44.0,
+            "server_asset_requests": 0,
+            "dom_ms": 11.699999988079071,
+            "load_ms": 11.799999982118607,
+            "resources": 96,
+            "network_resources": 0
+          },
+          {
+            "wall_ms": 46.7,
+            "server_asset_requests": 0,
+            "dom_ms": 9,
+            "load_ms": 9.099999994039536,
+            "resources": 96,
+            "network_resources": 0
+          }
+        ],
+        "managed": [
+          {
+            "wall_ms": 190.0,
+            "server_asset_requests": 96,
+            "dom_ms": 157.30000001192093,
+            "load_ms": 157.30000001192093,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 166.4,
+            "server_asset_requests": 96,
+            "dom_ms": 133.80000001192093,
+            "load_ms": 133.90000000596046,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 164.6,
+            "server_asset_requests": 96,
+            "dom_ms": 131.5,
+            "load_ms": 131.5,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 177.4,
+            "server_asset_requests": 96,
+            "dom_ms": 143.5,
+            "load_ms": 143.59999999403954,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 174.8,
+            "server_asset_requests": 96,
+            "dom_ms": 138.09999999403954,
+            "load_ms": 138.09999999403954,
+            "resources": 96,
+            "network_resources": 96
+          }
+        ]
+      },
+      "median_wall_ms": {
+        "ordinary": 44.0,
+        "managed": 174.8
+      }
+    },
+    "after": {
+      "label": "0.6.0",
+      "browser": "148.0.7778.96",
+      "assets": 96,
+      "unrelated_fake_cookies": 0,
+      "runs": 5,
+      "initial_group_open_wall_ms": 420.6,
+      "cache": "assets public, max-age=3600; same URLs reused",
+      "samples": {
+        "ordinary": [
+          {
+            "wall_ms": 60.5,
+            "server_asset_requests": 0,
+            "dom_ms": 25.599999994039536,
+            "load_ms": 25.599999994039536,
+            "resources": 96,
+            "network_resources": 0
+          },
+          {
+            "wall_ms": 64.2,
+            "server_asset_requests": 0,
+            "dom_ms": 30.5,
+            "load_ms": 30.599999994039536,
+            "resources": 96,
+            "network_resources": 0
+          },
+          {
+            "wall_ms": 57.2,
+            "server_asset_requests": 0,
+            "dom_ms": 25.69999998807907,
+            "load_ms": 25.80000001192093,
+            "resources": 96,
+            "network_resources": 0
+          },
+          {
+            "wall_ms": 59.3,
+            "server_asset_requests": 0,
+            "dom_ms": 28.19999998807907,
+            "load_ms": 28.19999998807907,
+            "resources": 96,
+            "network_resources": 0
+          },
+          {
+            "wall_ms": 63.1,
+            "server_asset_requests": 0,
+            "dom_ms": 28.899999976158142,
+            "load_ms": 28.899999976158142,
+            "resources": 96,
+            "network_resources": 0
+          }
+        ],
+        "managed": [
+          {
+            "wall_ms": 87.3,
+            "server_asset_requests": 0,
+            "dom_ms": 53.599999994039536,
+            "load_ms": 53.69999998807907,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 87.6,
+            "server_asset_requests": 0,
+            "dom_ms": 54,
+            "load_ms": 54.099999994039536,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 90.9,
+            "server_asset_requests": 0,
+            "dom_ms": 58.900000005960464,
+            "load_ms": 59,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 90.3,
+            "server_asset_requests": 0,
+            "dom_ms": 53.80000001192093,
+            "load_ms": 53.80000001192093,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 89.1,
+            "server_asset_requests": 0,
+            "dom_ms": 54.70000001788139,
+            "load_ms": 54.80000001192093,
+            "resources": 96,
+            "network_resources": 96
+          }
+        ]
+      },
+      "median_wall_ms": {
+        "ordinary": 60.5,
+        "managed": 89.1
+      }
+    }
+  },
+  "limits": [
+    "One initial-group-open observation includes debugger attach, snapshot and cold asset loading; not a median",
+    "Warm navigation medians use five repetitions after warm-up, alternating ordinary and managed pages",
+    "Process/load variability is visible in ordinary-page timings",
+    "Real business-site end-to-end timings were not measured",
+    "Cold loads can be slower; memory cache only accelerates eligible repeated resources",
+    "SSE and responses above 32 MiB are not supported in this prototype"
+  ],
+  "timing_note": "Timing samples remain the previously measured 0.6.0 cache implementation; 0.6.1 redirect repair was functionally checked but not rebenchmarked"
+}

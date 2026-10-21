@@ -1,0 +1,117 @@
+{
+  "date": "2026-10-20",
+  "environment": "User everyday Google Chrome, existing profile; installed unpacked Session Lab Native 0.6.1",
+  "method": "Native Chrome UI through CUA; fake-account server, DevX read-only page and BABI-to-Volcengine SSO navigation",
+  "passed_checks": [
+    "New group inherited ordinary local-demo login and localStorage",
+    "Groups A and B held different fake server accounts; ordinary tab stayed Original after refresh",
+    "Second A-group tab switched fake account; first A-group tab requested server and displayed the new account",
+    "Close and reopen preserved group A fake account A2",
+    "Chrome debugging banner Cancel moved both managed fake groups to stopped.html",
+    "DevX native group inherited existing logged-in state and loaded the same favorites list at real website URL",
+    "After deadlock fix, DevX reload and extension close/save completed; reopening restored logged-in favorites list without another source snapshot",
+    "BABI login-jump forms created new native tabs in their source Chrome groups and completed SSO for two distinct test accounts",
+    "A second A-group console tab inherited A login without another sign-in",
+    "After B-group SSO, reloading A still displayed its original account; ordinary Chrome revisiting console remained logged out, matching its baseline",
+    "Per-group Header editor uses only individual row checkboxes and name/value add/delete, without group selector, group enable or URL filters",
+    "Actual Chrome UI added a fake local test Header; localhost server received it; unchecking and refreshing removed it while retaining its saved name/value"
+  ],
+  "fixes": [
+    "Ignore expired Fetch interception IDs from canceled navigation requests only",
+    "Dispatch page storage/cookie notifications without blocking the network queue, avoiding synchronous-XHR deadlock",
+    "Website popup routing including async blank-window navigation and native new-window GET/POST forms",
+    "Explicitly cover main_frame in managed-tab DNR Cookie-response protection, including login redirects",
+    "Individual Header row enable flags with group-local automatic saving and legacy configuration migration"
+  ],
+  "not_verified": [
+    "All business features or arbitrary websites",
+    "Every SSO workflow, cross-window postMessage and WindowProxy APIs, or file-upload popup forms",
+    "Restarting the user everyday Chrome process; restart checked in isolated integration tests",
+    "All extension disable, browser menu new-window, and DevTools transition paths"
+  ],
+  "privacy": "No real Cookie values, authentication tokens or user identifiers included in this report",
+  "automated_checks": 15,
+  "cache_update": {
+    "version": "0.6.0",
+    "installed": true,
+    "automated_checks": 27,
+    "real_ui_checks": [
+      "A group Account A / Alpha loaded a personalized static script once; repeated native navigation retained server stamp 1",
+      "Ordinary tab first visit after managed cold load and hit returned Original / no test Header, including static script and live API",
+      "B group Account B / Beta received its own resource and retained stamp 1 on repeat",
+      "Changing A Header to Preview refreshed resource and live API to Preview; B remained Beta and ordinary remained Original",
+      "Saved Volcengine ContextSearch business group reopened with login, rendered My Scenes and Create Scene controls, refreshed successfully; extension popup showed no error",
+      "Business group closed/saved after read-only validation; no cloud resource or permission changes"
+    ],
+    "limits": [
+      "No timings collected on real business pages",
+      "All arbitrary websites, streaming and large downloads not covered",
+      "Browser lock interrupted optional final tab cleanup, after functional validation completed"
+    ]
+  },
+  "redirect_fix": {
+    "version": "0.6.1",
+    "before": "0.6.0 failed the new browser-internal redirect regression with net::ERR_BLOCKED_BY_CLIENT",
+    "cause": "manual fetch exposes an opaque redirect without a readable status or target; the cache path failed the paused native request when ordinary response headers were absent or late",
+    "fixes": [
+      "Capture onBeforeRedirect for internal redirects and wait for asynchronous response metadata",
+      "Preserve earlier response Cookie headers when the redirect event has filtered headers",
+      "Clean temporary rules by extension initiator rather than numeric ID; drop bindings to closed tabs"
+    ],
+    "automated_passed": 28,
+    "internal_redirect_repetitions": 5,
+    "daily_chrome": {
+      "installed_version": "0.6.1",
+      "group_headers": [],
+      "fresh_sso_runs": 2,
+      "entry": "BABI login jump -> Volcengine official website",
+      "result": "Both newly created native tabs joined the opener group, reached console.volcengine.com/home and displayed the expected account",
+      "popup_error": false,
+      "left_open": "Authenticated console in the test group",
+      "backend_changes": "No cloud-resource, billing or permission changes"
+    },
+    "privacy": "Local automated cases use fictitious accounts and headers only"
+  },
+  "cold_start_optimization": {
+    "date": "2026-10-21",
+    "installed_version": "0.6.2",
+    "automated_passed": 31,
+    "daily_chrome": [
+      "A/B test-account SSO completed in opener groups",
+      "After B login, A home still displayed its original account",
+      "Fake A Header appeared on localhost only for A; B and ordinary headers absent; ordinary fictitious login remained Original",
+      "Temporary Header removed; close/save succeeded for both groups; A reopened with Header absent",
+      "Final reloaded code restored saved A account; close/save followed by reopening popup showed no stale closed-tab error",
+      "A/B saved with real console home URLs; temporary demo tab closed; ordinary BABI left active"
+    ],
+    "business_boundary": "ContextSearch route on A test account led to IAM permission page; no authorization performed; not claimed as fully loaded scene list",
+    "phase_report": "cold-start-performance.json"
+  },
+  "devtools_fix": {
+    "date": "2026-10-21",
+    "version": "0.6.3",
+    "browser": "155.0.8059.85",
+    "automated_checks": 42,
+    "checks_by_suite": {
+      "result.json": 16,
+      "cache-result.json": 15,
+      "devtools-result.json": 11
+    },
+    "reproduced_before": "Fresh native XHR/Fetch body failed under Network.configureDurableMessages with Keep log enabled; the deprecated Network.enable enableDurableMessages option did not reproduce it.",
+    "daily_chrome": {
+      "installed_version_confirmed": true,
+      "keep_log": true,
+      "native_preview_and_response": "Fresh localhost whoami JSON displayed Account A; authenticated ContextSearch ListScene displayed readable ResponseMetadata and Result with scene items in native Response and Preview.",
+      "login_jump": "BABI test account -> Volcengine console, native new tab automatically joined source group",
+      "isolation": "Fake A/Alpha, B/no custom Header, ordinary Original/no custom Header agreed in both static resource and live API server output",
+      "cleanup": "Fictitious A/B groups and temporary Header removed; ordinary demo tab closed; business group retained. Screen locked during remaining terminal UI cleanup.",
+      "backend_changes": "No cloud resource, billing or authorization changes"
+    },
+    "limitations": [
+      "Explicit application Range/If-Range API requests retain the isolated proxy path; native durable response bodies are not guaranteed for those or synthetic static responses",
+      "Added complete-range/nonmatching-validator headers are visible on regular GET/HEAD API requests; servers or request-signing systems that reject these fields may need compatibility work",
+      "Already missing historical response bodies cannot be reconstructed; clear Network log and issue new requests after updating"
+    ],
+    "privacy": "No real account identifiers, Cookie values or business response bodies saved"
+  }
+}

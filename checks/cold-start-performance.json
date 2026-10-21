@@ -1,0 +1,438 @@
+{
+  "date": "2026-10-21",
+  "version": "0.6.2",
+  "local_cold": {
+    "before": {
+      "label": "0.6.1-cold",
+      "browser": "148.0.7778.96",
+      "assets": 96,
+      "unrelated_fake_cookies": 2000,
+      "runs": 5,
+      "initial_group_open_wall_ms": 416.5,
+      "cache": "all test responses use Cache-Control: no-store",
+      "samples": {
+        "ordinary": [
+          {
+            "wall_ms": 111.2,
+            "server_asset_requests": 96,
+            "dom_ms": 77.80000001192093,
+            "load_ms": 77.80000001192093,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 120.4,
+            "server_asset_requests": 96,
+            "dom_ms": 86.69999998807907,
+            "load_ms": 86.69999998807907,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 110.5,
+            "server_asset_requests": 96,
+            "dom_ms": 79.40000000596046,
+            "load_ms": 79.5,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 112.8,
+            "server_asset_requests": 96,
+            "dom_ms": 79,
+            "load_ms": 79.19999998807907,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 115.7,
+            "server_asset_requests": 96,
+            "dom_ms": 84.19999998807907,
+            "load_ms": 84.19999998807907,
+            "resources": 96,
+            "network_resources": 96
+          }
+        ],
+        "managed": [
+          {
+            "wall_ms": 355.7,
+            "server_asset_requests": 96,
+            "dom_ms": 322,
+            "load_ms": 322,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 345.1,
+            "server_asset_requests": 96,
+            "dom_ms": 309.40000000596046,
+            "load_ms": 309.40000000596046,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 356.2,
+            "server_asset_requests": 96,
+            "dom_ms": 324.59999999403954,
+            "load_ms": 324.69999998807907,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 347.8,
+            "server_asset_requests": 96,
+            "dom_ms": 314.90000000596046,
+            "load_ms": 315,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 341.8,
+            "server_asset_requests": 96,
+            "dom_ms": 309.59999999403954,
+            "load_ms": 309.59999999403954,
+            "resources": 96,
+            "network_resources": 96
+          }
+        ]
+      },
+      "median_wall_ms": {
+        "ordinary": 112.8,
+        "managed": 347.8
+      }
+    },
+    "after": {
+      "label": "0.6.2-cold",
+      "browser": "148.0.7778.96",
+      "assets": 96,
+      "unrelated_fake_cookies": 2000,
+      "storage_write_burst": false,
+      "runs": 5,
+      "initial_group_open_wall_ms": 239.0,
+      "cache": "all test responses use Cache-Control: no-store",
+      "samples": {
+        "ordinary": [
+          {
+            "wall_ms": 120.8,
+            "server_asset_requests": 96,
+            "dom_ms": 87.7000000178814,
+            "load_ms": 87.7000000178814,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 120.5,
+            "server_asset_requests": 96,
+            "dom_ms": 87.80000001192093,
+            "load_ms": 87.80000001192093,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 107.3,
+            "server_asset_requests": 96,
+            "dom_ms": 74.10000002384186,
+            "load_ms": 74.10000002384186,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 110.7,
+            "server_asset_requests": 96,
+            "dom_ms": 80.09999999403954,
+            "load_ms": 80.19999998807907,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 126.6,
+            "server_asset_requests": 96,
+            "dom_ms": 92.60000002384186,
+            "load_ms": 92.60000002384186,
+            "resources": 96,
+            "network_resources": 96
+          }
+        ],
+        "managed": [
+          {
+            "wall_ms": 151.5,
+            "server_asset_requests": 96,
+            "dom_ms": 119.5,
+            "load_ms": 119.5,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 166.5,
+            "server_asset_requests": 96,
+            "dom_ms": 122.30000001192093,
+            "load_ms": 122.40000000596046,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 156.0,
+            "server_asset_requests": 96,
+            "dom_ms": 117.5,
+            "load_ms": 117.59999999403954,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 145.3,
+            "server_asset_requests": 96,
+            "dom_ms": 113.30000001192093,
+            "load_ms": 113.40000000596046,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 156.3,
+            "server_asset_requests": 96,
+            "dom_ms": 122.10000002384186,
+            "load_ms": 122.10000002384186,
+            "resources": 96,
+            "network_resources": 96
+          }
+        ]
+      },
+      "median_wall_ms": {
+        "ordinary": 120.5,
+        "managed": 156.0
+      }
+    }
+  },
+  "local_storage_burst": {
+    "before": {
+      "label": "0.6.1-storage",
+      "browser": "148.0.7778.96",
+      "assets": 96,
+      "unrelated_fake_cookies": 2000,
+      "storage_write_burst": true,
+      "runs": 5,
+      "initial_group_open_wall_ms": 606.8,
+      "cache": "all test responses use Cache-Control: no-store",
+      "samples": {
+        "ordinary": [
+          {
+            "wall_ms": 111.8,
+            "server_asset_requests": 96,
+            "dom_ms": 81.90000000596046,
+            "load_ms": 81.90000000596046,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 114.7,
+            "server_asset_requests": 96,
+            "dom_ms": 84.09999999403954,
+            "load_ms": 84.09999999403954,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 113.6,
+            "server_asset_requests": 96,
+            "dom_ms": 83.09999999403954,
+            "load_ms": 83.09999999403954,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 112.5,
+            "server_asset_requests": 96,
+            "dom_ms": 82.5,
+            "load_ms": 82.60000002384186,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 118.4,
+            "server_asset_requests": 96,
+            "dom_ms": 84.89999997615814,
+            "load_ms": 85,
+            "resources": 96,
+            "network_resources": 96
+          }
+        ],
+        "managed": [
+          {
+            "wall_ms": 572.8,
+            "server_asset_requests": 96,
+            "dom_ms": 530.2000000178814,
+            "load_ms": 530.3000000119209,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 522.7,
+            "server_asset_requests": 96,
+            "dom_ms": 488,
+            "load_ms": 488,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 540.2,
+            "server_asset_requests": 96,
+            "dom_ms": 504.69999998807907,
+            "load_ms": 504.69999998807907,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 528.7,
+            "server_asset_requests": 96,
+            "dom_ms": 495.90000000596046,
+            "load_ms": 496,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 614.9,
+            "server_asset_requests": 96,
+            "dom_ms": 578.5,
+            "load_ms": 578.5,
+            "resources": 96,
+            "network_resources": 96
+          }
+        ]
+      },
+      "median_wall_ms": {
+        "ordinary": 113.6,
+        "managed": 540.2
+      }
+    },
+    "after": {
+      "label": "0.6.2-storage",
+      "browser": "148.0.7778.96",
+      "assets": 96,
+      "unrelated_fake_cookies": 2000,
+      "storage_write_burst": true,
+      "runs": 5,
+      "initial_group_open_wall_ms": 233.6,
+      "cache": "all test responses use Cache-Control: no-store",
+      "samples": {
+        "ordinary": [
+          {
+            "wall_ms": 122.1,
+            "server_asset_requests": 96,
+            "dom_ms": 89.2000000178814,
+            "load_ms": 89.30000001192093,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 118.6,
+            "server_asset_requests": 96,
+            "dom_ms": 85.7000000178814,
+            "load_ms": 85.7000000178814,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 117.1,
+            "server_asset_requests": 96,
+            "dom_ms": 79.2999999821186,
+            "load_ms": 79.5,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 114.5,
+            "server_asset_requests": 96,
+            "dom_ms": 81.40000000596046,
+            "load_ms": 81.5,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 122.2,
+            "server_asset_requests": 96,
+            "dom_ms": 87.5,
+            "load_ms": 87.5,
+            "resources": 96,
+            "network_resources": 96
+          }
+        ],
+        "managed": [
+          {
+            "wall_ms": 149.0,
+            "server_asset_requests": 96,
+            "dom_ms": 116.09999999403954,
+            "load_ms": 116.09999999403954,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 166.8,
+            "server_asset_requests": 96,
+            "dom_ms": 128.40000000596046,
+            "load_ms": 128.40000000596046,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 159.8,
+            "server_asset_requests": 96,
+            "dom_ms": 122.59999999403954,
+            "load_ms": 122.7000000178814,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 150.5,
+            "server_asset_requests": 96,
+            "dom_ms": 117.7000000178814,
+            "load_ms": 117.80000001192093,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 166.6,
+            "server_asset_requests": 96,
+            "dom_ms": 134.80000001192093,
+            "load_ms": 134.80000001192093,
+            "resources": 96,
+            "network_resources": 96
+          }
+        ]
+      },
+      "median_wall_ms": {
+        "ordinary": 118.6,
+        "managed": 159.8
+      }
+    }
+  },
+  "daily_chrome_phases": {
+    "before": {
+      "requests": 401,
+      "responseQueue": {
+        "averageMs": 366,
+        "maxMs": 1858
+      },
+      "responseMetadata": {
+        "averageMs": 1,
+        "maxMs": 20
+      }
+    },
+    "after": {
+      "requests": 879,
+      "responseQueue": {
+        "averageMs": 2,
+        "maxMs": 54
+      },
+      "responseMetadata": {
+        "averageMs": 1,
+        "maxMs": 22
+      },
+      "networkHeaders": {
+        "averageMs": 142,
+        "maxMs": 1216
+      }
+    },
+    "scope": "Aggregates across inherited BABI, SSO, console home and read-only business navigation; unequal request counts, not a controlled end-to-end page load comparison."
+  },
+  "automated_checks": 31,
+  "privacy": "Only numeric aggregates and fictitious localhost test data; no real account identifiers, Cookie or Header values."
+}

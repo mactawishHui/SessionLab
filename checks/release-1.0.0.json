@@ -1,0 +1,37 @@
+{
+  "release": "1.0.0",
+  "date": "2026-10-21",
+  "extension_id": "bahdeeelkjdmmphobgajdepfdpmcfade",
+  "base": "0.6.3 user-accepted",
+  "runtime_logic_unchanged": true,
+  "permissions_unchanged": true,
+  "storage_schema_unchanged": true,
+  "changed_files": [
+    "popup.html",
+    "stopped.html",
+    "manifest.json",
+    "isolate.js"
+  ],
+  "historical_browser_checks": 42,
+  "historical_browser_version": "155.0.8059.85",
+  "packaging_checks": [
+    "ZIP CRC and safe paths",
+    "manifest version, fixed ID and permissions",
+    "all runtime imports and HTML scripts resolve",
+    "runtime bytes unchanged except visible error text",
+    "only runtime and public documentation in install ZIP"
+  ],
+  "runtime_sha256": {
+    "popup.js": "6877a10e70496bc226519b260b3be716bc9ce6545e56b944346841f5a6eee265",
+    "rules.js": "d938f4f7740505b29e858bab744feb127126222a60df0093a8f68add57b977cc",
+    "background.js": "bd90fad9ff021bd6d50a3199de22034989bd3bf4b51831fad09069fdecc7df34",
+    "cache.js": "038b82ee510e68de061cec1524d107daa50ec223a15cc51f020ca927267401a9",
+    "popup.html": "9b230af61da5d83535eb1c743a61a7d04a6e80c1b7a9f4021eabfb9a1cab93d6",
+    "cookies.js": "c1309ae4fbe3811c80ef8d42779924e262e1ec36f485b6dea84494aacef61d57",
+    "bytes.js": "6b1033877f7777791d504271ab7a1a78f4b244403943aa209bf77a195b964611",
+    "headers.js": "38adce2425a07c52f879e58e442f6517f03540051608cd5389ffaa1e0f6b3d78",
+    "stopped.html": "8cee720390e9fb347d2ba43ae57bea92607549c6a7458aa59d17b45a336a94ae",
+    "manifest.json": "ef81f68930f0c134b08ab0aac80a5fcb02f8df1b0c8561e126c501b0b19e580a",
+    "isolate.js": "b1442ace1bad268a35129b062d28ee955b419bdcd336ed9f4dec94e198a9e194"
+  }
+}

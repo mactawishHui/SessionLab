@@ -1,0 +1,451 @@
+{
+  "date": "2026-10-21",
+  "version": "0.6.3",
+  "browser": "155.0.8059.85",
+  "automated_checks": 42,
+  "checks_by_suite": {
+    "result.json": 16,
+    "cache-result.json": 15,
+    "devtools-result.json": 11
+  },
+  "reproduced_before": "Fresh native XHR/Fetch body failed under Network.configureDurableMessages with Keep log enabled; the deprecated Network.enable enableDurableMessages option did not reproduce it.",
+  "daily_chrome": {
+    "installed_version_confirmed": true,
+    "keep_log": true,
+    "native_preview_and_response": "Fresh localhost whoami JSON displayed Account A; authenticated ContextSearch ListScene displayed readable ResponseMetadata and Result with scene items in native Response and Preview.",
+    "login_jump": "BABI test account -> Volcengine console, native new tab automatically joined source group",
+    "isolation": "Fake A/Alpha, B/no custom Header, ordinary Original/no custom Header agreed in both static resource and live API server output",
+    "cleanup": "Fictitious A/B groups and temporary Header removed; ordinary demo tab closed; business group retained. Screen locked during remaining terminal UI cleanup.",
+    "backend_changes": "No cloud resource, billing or authorization changes"
+  },
+  "performance": {
+    "devtools-perf-before.json": {
+      "label": "0.6.2-chrome155",
+      "browser": "155.0.8059.85",
+      "assets": 96,
+      "unrelated_fake_cookies": 2000,
+      "storage_write_burst": true,
+      "runs": 5,
+      "initial_group_open_wall_ms": 200.4,
+      "cache": "all test responses use Cache-Control: no-store",
+      "samples": {
+        "ordinary": [
+          {
+            "wall_ms": 85.2,
+            "server_asset_requests": 96,
+            "dom_ms": 83.7000000178814,
+            "load_ms": 83.7000000178814,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 83.5,
+            "server_asset_requests": 96,
+            "dom_ms": 81.69999998807907,
+            "load_ms": 81.69999998807907,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 93.8,
+            "server_asset_requests": 96,
+            "dom_ms": 91.90000000596046,
+            "load_ms": 92,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 83.2,
+            "server_asset_requests": 96,
+            "dom_ms": 81.5,
+            "load_ms": 81.5,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 85.5,
+            "server_asset_requests": 96,
+            "dom_ms": 83.80000001192093,
+            "load_ms": 83.90000000596046,
+            "resources": 96,
+            "network_resources": 96
+          }
+        ],
+        "managed": [
+          {
+            "wall_ms": 150.0,
+            "server_asset_requests": 96,
+            "dom_ms": 148.09999999403954,
+            "load_ms": 148.19999998807907,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 145.2,
+            "server_asset_requests": 96,
+            "dom_ms": 143.09999999403954,
+            "load_ms": 143.09999999403954,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 151.8,
+            "server_asset_requests": 96,
+            "dom_ms": 149.7000000178814,
+            "load_ms": 149.80000001192093,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 154.8,
+            "server_asset_requests": 96,
+            "dom_ms": 152.30000001192093,
+            "load_ms": 152.40000000596046,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 169.1,
+            "server_asset_requests": 96,
+            "dom_ms": 166.7000000178814,
+            "load_ms": 166.80000001192093,
+            "resources": 96,
+            "network_resources": 96
+          }
+        ]
+      },
+      "median_wall_ms": {
+        "ordinary": 85.2,
+        "managed": 151.8
+      }
+    },
+    "devtools-perf-after.json": {
+      "label": "0.6.3-chrome155",
+      "browser": "155.0.8059.85",
+      "assets": 96,
+      "unrelated_fake_cookies": 2000,
+      "storage_write_burst": true,
+      "runs": 5,
+      "initial_group_open_wall_ms": 204.8,
+      "cache": "all test responses use Cache-Control: no-store",
+      "samples": {
+        "ordinary": [
+          {
+            "wall_ms": 79.5,
+            "server_asset_requests": 96,
+            "dom_ms": 77.90000000596046,
+            "load_ms": 77.90000000596046,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 84.4,
+            "server_asset_requests": 96,
+            "dom_ms": 82.7999999821186,
+            "load_ms": 82.7999999821186,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 87.2,
+            "server_asset_requests": 96,
+            "dom_ms": 85.5,
+            "load_ms": 85.5,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 89.5,
+            "server_asset_requests": 96,
+            "dom_ms": 87.59999999403954,
+            "load_ms": 87.59999999403954,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 86.4,
+            "server_asset_requests": 96,
+            "dom_ms": 84.5,
+            "load_ms": 84.59999999403954,
+            "resources": 96,
+            "network_resources": 96
+          }
+        ],
+        "managed": [
+          {
+            "wall_ms": 163.4,
+            "server_asset_requests": 96,
+            "dom_ms": 160.90000000596046,
+            "load_ms": 161,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 152.1,
+            "server_asset_requests": 96,
+            "dom_ms": 149.7000000178814,
+            "load_ms": 149.80000001192093,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 162.3,
+            "server_asset_requests": 96,
+            "dom_ms": 160,
+            "load_ms": 160,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 163.0,
+            "server_asset_requests": 96,
+            "dom_ms": 160.90000000596046,
+            "load_ms": 161,
+            "resources": 96,
+            "network_resources": 96
+          },
+          {
+            "wall_ms": 188.0,
+            "server_asset_requests": 96,
+            "dom_ms": 185.2000000178814,
+            "load_ms": 185.30000001192093,
+            "resources": 96,
+            "network_resources": 96
+          }
+        ]
+      },
+      "median_wall_ms": {
+        "ordinary": 86.4,
+        "managed": 163.0
+      }
+    },
+    "devtools-api-perf-before.json": {
+      "label": "0.6.2-api-chrome155",
+      "browser": "155.0.8059.85",
+      "assets": 96,
+      "unrelated_fake_cookies": 2000,
+      "storage_write_burst": true,
+      "api_wave": 48,
+      "runs": 5,
+      "initial_group_open_wall_ms": 254.2,
+      "cache": "all test responses use Cache-Control: no-store",
+      "samples": {
+        "ordinary": [
+          {
+            "wall_ms": 132.6,
+            "server_asset_requests": 96,
+            "server_api_requests": 48,
+            "dom_ms": 90.40000000596046,
+            "load_ms": 90.40000000596046,
+            "resources": 144,
+            "network_resources": 144
+          },
+          {
+            "wall_ms": 133.2,
+            "server_asset_requests": 96,
+            "server_api_requests": 48,
+            "dom_ms": 85.2999999821186,
+            "load_ms": 85.39999997615814,
+            "resources": 144,
+            "network_resources": 144
+          },
+          {
+            "wall_ms": 126.3,
+            "server_asset_requests": 96,
+            "server_api_requests": 48,
+            "dom_ms": 90.59999999403954,
+            "load_ms": 90.59999999403954,
+            "resources": 144,
+            "network_resources": 144
+          },
+          {
+            "wall_ms": 134.9,
+            "server_asset_requests": 96,
+            "server_api_requests": 48,
+            "dom_ms": 97.59999999403954,
+            "load_ms": 97.69999998807907,
+            "resources": 144,
+            "network_resources": 144
+          },
+          {
+            "wall_ms": 118.9,
+            "server_asset_requests": 96,
+            "server_api_requests": 48,
+            "dom_ms": 81.30000001192093,
+            "load_ms": 81.30000001192093,
+            "resources": 144,
+            "network_resources": 144
+          }
+        ],
+        "managed": [
+          {
+            "wall_ms": 202.4,
+            "server_asset_requests": 96,
+            "server_api_requests": 48,
+            "dom_ms": 148.10000002384186,
+            "load_ms": 148.10000002384186,
+            "resources": 144,
+            "network_resources": 144
+          },
+          {
+            "wall_ms": 214.2,
+            "server_asset_requests": 96,
+            "server_api_requests": 48,
+            "dom_ms": 154.90000000596046,
+            "load_ms": 154.90000000596046,
+            "resources": 144,
+            "network_resources": 144
+          },
+          {
+            "wall_ms": 220.4,
+            "server_asset_requests": 96,
+            "server_api_requests": 48,
+            "dom_ms": 156.5,
+            "load_ms": 156.5,
+            "resources": 144,
+            "network_resources": 144
+          },
+          {
+            "wall_ms": 217.3,
+            "server_asset_requests": 96,
+            "server_api_requests": 48,
+            "dom_ms": 158,
+            "load_ms": 158,
+            "resources": 144,
+            "network_resources": 144
+          },
+          {
+            "wall_ms": 202.7,
+            "server_asset_requests": 96,
+            "server_api_requests": 48,
+            "dom_ms": 148,
+            "load_ms": 148,
+            "resources": 144,
+            "network_resources": 144
+          }
+        ]
+      },
+      "median_wall_ms": {
+        "ordinary": 132.6,
+        "managed": 214.2
+      }
+    },
+    "devtools-api-perf-after.json": {
+      "label": "0.6.3-api-chrome155",
+      "browser": "155.0.8059.85",
+      "assets": 96,
+      "unrelated_fake_cookies": 2000,
+      "storage_write_burst": true,
+      "api_wave": 48,
+      "runs": 5,
+      "initial_group_open_wall_ms": 247.4,
+      "cache": "all test responses use Cache-Control: no-store",
+      "samples": {
+        "ordinary": [
+          {
+            "wall_ms": 122.2,
+            "server_asset_requests": 96,
+            "server_api_requests": 48,
+            "dom_ms": 84.40000000596046,
+            "load_ms": 84.59999999403954,
+            "resources": 144,
+            "network_resources": 144
+          },
+          {
+            "wall_ms": 124.0,
+            "server_asset_requests": 96,
+            "server_api_requests": 48,
+            "dom_ms": 86.89999997615814,
+            "load_ms": 87,
+            "resources": 144,
+            "network_resources": 144
+          },
+          {
+            "wall_ms": 125.7,
+            "server_asset_requests": 96,
+            "server_api_requests": 48,
+            "dom_ms": 88.2000000178814,
+            "load_ms": 88.30000001192093,
+            "resources": 144,
+            "network_resources": 144
+          },
+          {
+            "wall_ms": 131.0,
+            "server_asset_requests": 96,
+            "server_api_requests": 48,
+            "dom_ms": 91.5,
+            "load_ms": 91.5,
+            "resources": 144,
+            "network_resources": 144
+          },
+          {
+            "wall_ms": 125.1,
+            "server_asset_requests": 96,
+            "server_api_requests": 48,
+            "dom_ms": 86,
+            "load_ms": 86.09999999403954,
+            "resources": 144,
+            "network_resources": 144
+          }
+        ],
+        "managed": [
+          {
+            "wall_ms": 230.4,
+            "server_asset_requests": 96,
+            "server_api_requests": 48,
+            "dom_ms": 180.30000001192093,
+            "load_ms": 180.40000000596046,
+            "resources": 144,
+            "network_resources": 144
+          },
+          {
+            "wall_ms": 201.3,
+            "server_asset_requests": 96,
+            "server_api_requests": 48,
+            "dom_ms": 152.5,
+            "load_ms": 152.59999999403954,
+            "resources": 144,
+            "network_resources": 144
+          },
+          {
+            "wall_ms": 201.7,
+            "server_asset_requests": 96,
+            "server_api_requests": 48,
+            "dom_ms": 154.60000002384186,
+            "load_ms": 154.7000000178814,
+            "resources": 144,
+            "network_resources": 144
+          },
+          {
+            "wall_ms": 211.9,
+            "server_asset_requests": 96,
+            "server_api_requests": 48,
+            "dom_ms": 164.09999999403954,
+            "load_ms": 164.09999999403954,
+            "resources": 144,
+            "network_resources": 144
+          },
+          {
+            "wall_ms": 198.9,
+            "server_asset_requests": 96,
+            "server_api_requests": 48,
+            "dom_ms": 153,
+            "load_ms": 153.09999999403954,
+            "resources": 144,
+            "network_resources": 144
+          }
+        ]
+      },
+      "median_wall_ms": {
+        "ordinary": 125.1,
+        "managed": 201.7
+      }
+    }
+  },
+  "limitations": [
+    "Explicit application Range/If-Range API requests retain the isolated proxy path; native durable response bodies are not guaranteed for those or synthetic static responses",
+    "Added complete-range/nonmatching-validator headers are visible on regular GET/HEAD API requests; servers or request-signing systems that reject these fields may need compatibility work",
+    "Already missing historical response bodies cannot be reconstructed; clear Network log and issue new requests after updating"
+  ],
+  "privacy": "No real account identifiers, Cookie values or business response bodies saved"
+}

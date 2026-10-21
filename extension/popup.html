@@ -1,0 +1,20 @@
+<!doctype html><meta charset="utf-8"><title>Session Lab Native</title>
+<style>
+body{font:13px -apple-system,sans-serif;width:410px;margin:0;padding:18px;color:#233a30;background:#f5f7f3}
+h2{margin:0 0 12px}p{line-height:1.6}input,button{font:inherit;border:1px solid #cbd6cd;border-radius:7px;padding:10px;box-sizing:border-box}
+input{width:100%;margin:8px 0}button{cursor:pointer;background:white;color:inherit}button:disabled{opacity:.5}
+#create{width:100%;background:#216345;color:white}.group{border-top:1px solid #dbe2d9;padding:12px 0}.row{display:flex;align-items:center;gap:6px}
+.name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.row button{padding:6px}
+small{display:block;color:#708073;line-height:1.6;margin-top:12px}#status{white-space:pre-wrap;color:#805a23}
+.group-headers{margin-top:10px;padding:8px 10px;border-radius:7px;background:#edf2eb}summary{cursor:pointer;font-size:12px;color:#51685b}
+.header-controls{padding-top:4px}input[type=checkbox]{width:15px;height:15px;accent-color:#216345;align-self:center;justify-self:center}
+.header-row{display:grid;grid-template-columns:20px 1fr 1fr 26px;align-items:center;gap:6px;margin:10px 0}.header-row input{margin:0;min-width:0;padding:8px;font-size:12px}.header-row button{padding:4px;color:#8b5149}.header-row.inactive .header-name,.header-row.inactive .header-value{color:#8c9590;background:#f5f7f3}
+.header-add{padding:7px 10px;font-size:12px}.header-status{font-size:12px;line-height:1.5;margin-top:6px;color:#708073}.header-status:empty{display:none}
+.header-row .header-enabled{padding:0}
+</style>
+<h2>Session Lab Native <small>正式版 · 1.0.0</small></h2><p id="source">读取当前页面…</p>
+<input id="name" placeholder="分组名称"><button id="create" disabled>新建分组 · 继承当前登录</button>
+<div id="status" role="status"></div><div id="list"></div>
+<small>网页直接在 Chrome 中运行，无画面转发。新分组复制当前 Profile Cookie 和当前站点的 localStorage / sessionStorage。组内 Cookie 与 localStorage 共享，其他分组独立。</small>
+<small>支持范围：不继承 IndexedDB；禁用 Worker、Service Worker、WebSocket；网站新标签页自动加入当前分组。需保持 Chrome 的调试连接；取消连接会停止会话。尚不保证任意网站兼容。</small>
+<script type="module" src="popup.js"></script>

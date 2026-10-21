@@ -1,0 +1,23 @@
+{
+  "version": "0.6.1",
+  "before": "0.6.0 failed the new browser-internal redirect regression with net::ERR_BLOCKED_BY_CLIENT",
+  "cause": "manual fetch exposes an opaque redirect without a readable status or target; the cache path failed the paused native request when ordinary response headers were absent or late",
+  "fixes": [
+    "Capture onBeforeRedirect for internal redirects and wait for asynchronous response metadata",
+    "Preserve earlier response Cookie headers when the redirect event has filtered headers",
+    "Clean temporary rules by extension initiator rather than numeric ID; drop bindings to closed tabs"
+  ],
+  "automated_passed": 28,
+  "internal_redirect_repetitions": 5,
+  "daily_chrome": {
+    "installed_version": "0.6.1",
+    "group_headers": [],
+    "fresh_sso_runs": 2,
+    "entry": "BABI login jump -> Volcengine official website",
+    "result": "Both newly created native tabs joined the opener group, reached console.volcengine.com/home and displayed the expected account",
+    "popup_error": false,
+    "left_open": "Authenticated console in the test group",
+    "backend_changes": "No cloud-resource, billing or permission changes"
+  },
+  "privacy": "Local automated cases use fictitious accounts and headers only"
+}
