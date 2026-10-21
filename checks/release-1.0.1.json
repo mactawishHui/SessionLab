@@ -1,0 +1,35 @@
+{
+  "version": "1.0.1",
+  "status": "candidate-not-submitted",
+  "date": "2026-10-21",
+  "browser": "156.0.8078.4",
+  "browser_regression_checks": {
+    "result.json": 16,
+    "cache-result.json": 15,
+    "devtools-result.json": 11
+  },
+  "security_browser_checks": 14,
+  "node_checks": 19,
+  "local_extension_id": "bahdeeelkjdmmphobgajdepfdpmcfade",
+  "store_id": "assigned-by-store-not-yet-created",
+  "runtime_sha256": {
+    "background.js": "861f72a08e6653c8ea6b8576e981ae26055043f9c9e41d9b57e32d9e51af7525",
+    "bytes.js": "6b1033877f7777791d504271ab7a1a78f4b244403943aa209bf77a195b964611",
+    "cache.js": "038b82ee510e68de061cec1524d107daa50ec223a15cc51f020ca927267401a9",
+    "cookies.js": "c1309ae4fbe3811c80ef8d42779924e262e1ec36f485b6dea84494aacef61d57",
+    "headers.js": "38adce2425a07c52f879e58e442f6517f03540051608cd5389ffaa1e0f6b3d78",
+    "isolate.js": "b1442ace1bad268a35129b062d28ee955b419bdcd336ed9f4dec94e198a9e194",
+    "manifest.json": "03bc5520d293dc183c764cbc9941c48570e9187315e6b8e864f3ffa9e026fa66",
+    "popup.html": "57fc4671c91a3d77b9ad6fe39cafa44968f725615cda3a41f8813e1afc8e47e5",
+    "popup.js": "47ff708a8416c7ae151bb5791a312a1e68b2f834c4c0242e9f5f08cdb4eea38c",
+    "rules.js": "d938f4f7740505b29e858bab744feb127126222a60df0093a8f68add57b977cc",
+    "stopped.html": "8cee720390e9fb347d2ba43ae57bea92607549c6a7458aa59d17b45a336a94ae",
+    "vault.js": "e57a0c57e36cc8686cd984fafb5b676002abab7dfe72c2f5758d4015a9440976"
+  },
+  "webstore_zip_sha256": "0b48e210d9b616a967851100081ef6990f1433847ad185b86e0983d042c863c0",
+  "limits": [
+    "Page-owned IndexedDB/CacheStorage is outside master-password encryption",
+    "No guarantee of arbitrary-site compatibility or Chrome Web Store approval",
+    "New store signing ID may differ; no automatic cross-ID data migration"
+  ]
+}

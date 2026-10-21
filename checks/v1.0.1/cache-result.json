@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "browser": "156.0.8078.4",
+  "checks": [
+    "Different groups never share cache entries even with identical initial account/header snapshots; repeated requests in one group hit its own cache",
+    "Same-URL personalized static responses stay isolated for A/Alpha, B/Beta and ordinary Chrome; managed network responses and synthetic hits do not overwrite ordinary cache",
+    "Editing, disabling and restoring group Header rules invalidates old variants before use, without changing B or ordinary requests",
+    "Login POST and Cookie changes invalidate prior identity content; another group and ordinary login/cache remain unchanged",
+    "No-store, no-cache, max-age=0, Vary:*, expired Age, Set-Cookie and Clear-Site-Data responses are never reused",
+    "Expired resources go back to network instead of serving stale data",
+    "State-changing POST invalidates cached content even when the server keeps the same login Cookie",
+    "A response started before a Header switch cannot populate or replay into the new cache generation",
+    "Vary response headers are checked against each current request, including Referer variations",
+    "Compressed UTF-8 script bodies and binary/image responses replay correctly on cache hits",
+    "Cached script execution can make synchronous XHR without deadlock; API/fetch requests are always sent to the network",
+    "Native tabs in one group share its warm cache without borrowing another group or the Profile cache",
+    "Browser-internal redirects retain the source group account/Header and do not affect B or ordinary tabs",
+    "Batched concurrent request rules preserve each group Cookie/Header for identical URLs, with ordinary requests unchanged",
+    "Cookie domain indexing preserves duplicate-name ordering and updates replacement/expiry without changing scope"
+  ],
+  "privacy": "Synthetic localhost accounts/headers only; no real credentials or user cache keys recorded"
+}

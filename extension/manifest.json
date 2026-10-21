@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Session Lab Native",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "minimum_chrome_version": "125",
   "description": "原生 Chrome 分组会话：分组独立登录、默认继承当前登录、自定义 Header 与分组缓存。",
   "permissions": [

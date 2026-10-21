@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "checks": [
+    "New native group inherits original HttpOnly cookie and localStorage in the same Chrome profile",
+    "Two groups keep different server logins and localStorage after reload; ordinary Chrome remains Original",
+    "Two native tabs in one Chrome group share Cookie and localStorage updates",
+    "Idempotent localStorage writes do not emit feedback storage events or block sibling-tab requests",
+    "document.cookie and localStorage.clear affect only the managed group, including navigation",
+    "Native blank tab adopted by a managed group; moving it to another group reloads with that group identity",
+    "Closing and reopening a group restores its own login and storage without re-copying the source",
+    "Each group contains its own Header rows with individual checkboxes and add/delete controls; edits autosave and apply to all group requests including website-opened main documents; disabling one row preserves its value and other rows, B and ordinary tabs are unchanged",
+    "Header feature is optional and disabling restores original request headers; Cookie overrides and CRLF injection are rejected before saving",
+    "Website login popup joins its opener group before first request; redirects and response cookies share only that group, with ordinary and B-group identities unchanged",
+    "Async blank-popup location assignment and target=_blank links create native tabs in the same session group",
+    "GET forms and programmatic POST login forms preserve method and UTF-8 fields, follow redirects inside the opener group, and leave B and ordinary accounts unchanged",
+    "Synchronous XHR response cookies do not deadlock the group network queue or pollute the ordinary profile",
+    "Enabled per-group Header rules persist across full Chrome restart together with the group login",
+    "Full Chrome restart restores the saved group identity from extension storage",
+    "Explicitly stopping a managed tab redirects it to an explanation and blocks its HTTP network access"
+  ],
+  "native_urls": true,
+  "profile_count": 1,
+  "browser": "156.0.8078.4"
+}

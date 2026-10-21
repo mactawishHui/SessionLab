@@ -2,7 +2,11 @@
 
 在同一个 Chrome 浏览器中，为同一网站管理多个账号。每个 Session 对应一个标签页分组：创建时继承当前登录状态，之后同组标签共享会话，各组分别管理。
 
-扩展中显示名称为 **Session Lab Native**，当前版本 **1.0.0**。无需 Python 后台或本地服务；采用 Manifest V3，网页直接在 Chrome 原生标签页中运行。
+扩展中显示名称为 **Session Lab Native**，仓库源码为 **1.0.1 商店候选版**，稳定下载仍为 **1.0.0**。无需 Python 后台或本地服务；采用 Manifest V3，网页直接在 Chrome 原生标签页中运行。
+
+## Chrome Web Store 上架准备
+
+1.0.1 新增主密码加密保存和重启解锁，正在准备商店发行，**尚未在商店上架**。上传包、图标、真实截图、文案、权限理由和审核说明见 [商店材料](store/README.md)；数据处理见 [隐私说明](PRIVACY.md)。商店新签名 ID 不保证与旧手工加载扩展相同，已有分组不会自动跨 ID 迁移。
 
 ## 下载与安装
 
@@ -30,7 +34,7 @@ ZIP 需要先解压，本项目尚未发布到 Chrome Web Store。完整步骤�
 ## 权限、数据与兼容性
 
 - 使用 `debugger` 接管受管标签的网络请求，使用 Cookie、存储、标签页、标签分组、脚本和网络规则权限实现会话管理。需要访问 HTTP/HTTPS 网站；完整权限见 [manifest.json](extension/manifest.json)。
-- 会话数据保存在本机扩展存储中。请勿分享扩展存储或 Chrome Profile；仓库及安装包不携带用户会话。
+- 1.0.1 的保存会话经主密码加密保存在本机扩展存储中；1.0.0 原包尚无该保护。请勿分享扩展存储或 Chrome Profile；仓库及安装包不携带用户会话。
 - 需要保持 Chrome 的调试连接，不要取消“正在调试此浏览器”提示；断开后需通过扩展重新打开分组。
 - Manifest 声明最低 Chrome 125；原项目提供的验收记录使用 Chrome 155.0.8059.85，最低版本声明不等于完整兼容性保证。
 - 不继承原 Profile 的 IndexedDB；禁用 Worker、Service Worker、WebSocket。部分窗口通信、登录流程、流式响应及大文件可能不兼容。
@@ -51,17 +55,17 @@ INSTALL.md          安装、升级与日常操作
 RELEASE-NOTES.md    原版本发布说明
 ```
 
-运行不需要 npm install 或编译。修改源码后在扩展管理页重新加载。重新生成安装包：
+运行不需要 npm install 或编译。1.0.1 首次运行需设置至少 12 字符的主密码并确认披露；浏览器重启或扩展重新加载后需解锁。密码无法找回。修改源码后在扩展管理页重新加载。重新生成安装包：
 
 ```sh
 python3 scripts/package.py
 ```
 
-输出为 `dist/session-lab-1.0.0-rebuilt.zip`，保留原始安装包；使用固定时间戳以便重复打包校验。重新打包后的 ZIP 字节与原包可能不同，内含扩展文件应与当前源码一致。原扩展公钥和 ID `bahdeeelkjdmmphobgajdepfdpmcfade` 保持不变。
+输出为 `dist/session-lab-1.0.1-rebuilt.zip`，保留原始安装包；使用固定时间戳以便重复打包校验。重新打包后的 ZIP 字节与原包可能不同，内含扩展文件应与当前源码一致。原扩展公钥和 ID `bahdeeelkjdmmphobgajdepfdpmcfade` 保持不变。
 
 ## 验证与文档
 
-原项目附带 42 项浏览器检查的历史记录（16 项会话、15 项缓存、11 项 DevTools）；它们不代表本次 GitHub 整理重新执行了整套测试。本次检查范围见 [仓库发布核验](docs/PUBLISHING.md)。开发环境及测试运行方式见 [维护文档](docs/MAINTENANCE.md)。
+原项目附带的 42 项检查历史报告保留原样；1.0.1 在 Chrome 156 上重新通过同一组 42 项回归，并通过新增 14 项主密码浏览器检查和 19 项 Node 检查，详见[商店材料](store/README.md)。首次导入检查范围见 [仓库发布核验](docs/PUBLISHING.md)。开发环境及测试运行方式见 [维护文档](docs/MAINTENANCE.md)。
 
 - [原版发布说明](RELEASE-NOTES.md)
 - [DevTools 修复说明](checks/devtools-fix.md)

@@ -1,6 +1,6 @@
 # 架构与隔离约束
 
-Chrome tabGroups 关联分组，chrome.debugger/Fetch 拦截受管标签请求。分组 Cookie jar 和 localStorage 在本机 chrome.storage.local 保存；sessionStorage 按页初始化与生命周期管理。新分组复制普通 Profile Cookie 和当前站点存储快照，恢复旧组不重新复制。
+Chrome tabGroups 关联分组，chrome.debugger/Fetch 拦截受管标签请求。1.0.1 的分组 Cookie jar、localStorage 等整体经 vault.js AES-GCM 加密后在本机 chrome.storage.local 保存；解锁密钥仅在内存/chrome.storage.session，重启需主密码。旧 nativeGroups 在用户明确设置主密码后验证迁移并清理。sessionStorage 按页初始化与生命周期管理。新分组复制普通 Profile Cookie 和当前站点存储快照，恢复旧组不重新复制。
 
 请求分两条路径：常规无显式范围条件的 Fetch/XHR 使用原生网络，添加完整范围/不匹配验证条件，触发 Chromium LOAD_DISABLE_CACHE，禁止共享 HTTP 缓存读写并保持原生 DevTools 正文收集；文档、静态及显式范围 GET/HEAD 使用扩展 no-store 获取后交回原页面。分组 Cookie/Header 都在发出前应用，响应 Set-Cookie/Clear-Site-Data 不得改写普通 Profile。
 
@@ -11,3 +11,5 @@ Chrome tabGroups 关联分组，chrome.debugger/Fetch 拦截受管标签请求�
 网站新页先建 about:blank、接入来源组，再导航；GET/POST 表单需保留方法和 UTF-8 数据。IndexedDB/CacheStorage/BroadcastChannel 用组前缀，Worker/Service Worker/WebSocket 禁用。浏览器 API 层兼容性方案不构成内核安全边界。
 
 详细原生 DevTools 原因、内部 Range/If-Range 行为及特殊请求边界见 ../checks/devtools-fix.md；首次加载数值只用于对应版本与测试环境，不是所有业务页面的性能保证。
+
+解锁状态分为 vault 密钥可用与组数据已发布两个条件，后台仅在二者同时满足时开放业务操作；避免异步迁移清理阶段空组快照覆盖已有数据。主密码不加密网页自行维护的 IndexedDB/CacheStorage。

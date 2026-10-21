@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "browser": "156.0.8078.4",
+  "checks": [
+    "Native durable DevTools session reads asynchronous XHR JSON with A/B Cookie/Header isolation and ordinary Original identity",
+    "Native Fetch response body is readable without replaying the server request",
+    "Concurrent identical URLs and first visits from ordinary tabs cannot borrow group API content through HTTP cache",
+    "XHR text, JSON, Blob, ArrayBuffer and XML values match original native Network body bytes",
+    "XHR abort and timeout produce one terminal event; HTTP error status retains its readable response body",
+    "API redirects and response Cookie renew only the originating group; DevTools reads the final response",
+    "Cross-origin XHR retains browser CORS with no internal request marker headers",
+    "DevTools Disable cache on and off both preserve response bodies and prevent group API writes into ordinary HTTP cache",
+    "Synchronous XHR retains native semantics and its response body is readable with Keep log enabled",
+    "Native POST XHR response is readable and its login Cookie updates only A",
+    "Keep log may be toggled off/on and new API bodies remain readable"
+  ],
+  "privacy": "Fictitious localhost accounts and headers only",
+  "scope": "Native non-range Fetch/XHR API, synchronous XHR and POST; synthetic static/range responses retain durable-body limitations"
+}

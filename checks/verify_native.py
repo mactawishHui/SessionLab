@@ -1,3 +1,4 @@
+from vault_fixture import unlock_fixture, output_dir
 import os
 import asyncio,json,tempfile,sys
 from pathlib import Path
@@ -6,6 +7,7 @@ from playwright.async_api import async_playwright
 from demo import make_app
 
 ROOT=Path(__file__).resolve().parents[1]
+OUTPUT=output_dir(ROOT)
 async def until(fn,timeout=25):
     end=asyncio.get_running_loop().time()+timeout;last=None
     while asyncio.get_running_loop().time()<end:
@@ -36,6 +38,7 @@ async def run():
           await login(original,'Original')
           worker=context.service_workers[0] if context.service_workers else await context.wait_for_event('serviceworker')
           popup=await context.new_page();await original.bring_to_front();await popup.goto(worker.url.replace('background.js','popup.html'))
+          await unlock_fixture(popup)
           async def call(message):
             r=await asyncio.wait_for(popup.evaluate('(message)=>chrome.runtime.sendMessage(message)',message),30)
             assert r['ok'],r
@@ -105,7 +108,7 @@ async def run():
           assert await restored.evaluate("localStorage.getItem('afterClear')")=='A'
           report.append('Closing and reopening a group restores its own login and storage without re-copying the source')
           print('PASS:',report[-1],flush=True)
-          await restored.screenshot(path=str(ROOT/'checks/native-demo.png'))
+          await restored.screenshot(path=str(OUTPUT/'native-demo.png'))
           # Configure A through the actual popup editor, not only its message API.
           await popup.reload();editor=popup.locator('.group[data-gid="'+a['id']+'"]')
           assert await popup.locator('select,textarea').count()==0
@@ -136,7 +139,7 @@ async def run():
           assert (await echo_from(restored))['remove']=='remove-me'
           await editor.locator('.header-add').click();await editor.locator('.header-name').nth(1).fill('X-Unused');await editor.locator('.header-value').nth(1).fill('kept-while-off')
           await editor.locator('.header-enabled').nth(1).uncheck();await editor.locator('.header-status').filter(has_text='已自动保存').wait_for()
-          await popup.screenshot(path=str(ROOT/'checks/header-ui.png'),full_page=True)
+          await popup.screenshot(path=str(OUTPUT/'header-ui.png'),full_page=True)
           report.append('Each group contains its own Header rows with individual checkboxes and add/delete controls; edits autosave and apply to all group requests including website-opened main documents; disabling one row preserves its value and other rows, B and ordinary tabs are unchanged')
           print('PASS:',report[-1],flush=True)
           await editor.locator('.header-enabled').nth(0).uncheck();await editor.locator('.header-status').filter(has_text='已自动保存').wait_for()
@@ -201,6 +204,7 @@ async def run():
           context=await pw.chromium.launch_persistent_context(folder,executable_path=str(executable),headless=True,ignore_default_args=['--disable-extensions'],args=['--disable-extensions-except='+ext,'--load-extension='+ext])
           worker=context.service_workers[0] if context.service_workers else await context.wait_for_event('serviceworker')
           popup=await context.new_page();await popup.goto(worker.url.replace('background.js','popup.html'))
+          await unlock_fixture(popup)
           source=await worker.evaluate('async()=>(await chrome.tabs.query({active:true,currentWindow:true}))[0]')
           await call({'type':'open','gid':a['id'],'active':source})
           async def after_restart():return next((p for p in context.pages if p.url.startswith(base)),None)
@@ -221,14 +225,13 @@ async def run():
           assert blocked
           report.append('Explicitly stopping a managed tab redirects it to an explanation and blocks its HTTP network access')
           print('PASS:',report[-1],flush=True)
-          (ROOT/'checks/result.json').write_text(json.dumps({'passed':True,'checks':report,'native_urls':True,'profile_count':1,'browser':context.browser.version},ensure_ascii=False,indent=2))
+          (OUTPUT/'result.json').write_text(json.dumps({'passed':True,'checks':report,'native_urls':True,'profile_count':1,'browser':context.browser.version},ensure_ascii=False,indent=2))
         except Exception:
           print('DIAGNOSTIC URLS:',[p.url for p in context.pages],flush=True)
           if 'popup' in locals():
             print('DIAGNOSTIC STATUS:',await popup.evaluate("()=>chrome.runtime.sendMessage({type:'status'})"),flush=True)
           for p in context.pages:
             if p.url.startswith(base):print('LOCAL STATE:',await p.locator('#state').inner_text(),flush=True)
-          print('FAKE COOKIE JARS:',await worker.evaluate("async()=>({groups:(await chrome.storage.local.get('nativeGroups')).nativeGroups.map(g=>({name:g.name,cookies:g.cookies}))})"),flush=True)
           raise
         finally:await context.close()
     await runner.cleanup()

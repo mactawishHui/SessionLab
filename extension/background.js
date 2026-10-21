@@ -1,3 +1,4 @@
+import {SessionVault} from './vault.js';
 import {header,parse,put,visibleCookies} from './cookies.js';
 import {isolate} from './isolate.js';
 import {normalizeHeaders,applyHeaders} from './headers.js';
@@ -21,6 +22,13 @@ const proxyJobs=new Map(),proxyQueues=new Map();let proxyRule=1000000000;
 const requestUrl=value=>{const u=new URL(value);u.hash='';return u.href;};
 function proxyResponse(job,value){job.response=value;job.resolve?.();}
 const endpoint=chrome.runtime.getURL('popup.html');
+const vault=new SessionVault(chrome.storage.local,chrome.storage.session);
+let vaultOperation=Promise.resolve(),groupsReady=false;
+function isUnlocked(){return groupsReady&&vault.status().unlocked;}
+function vaultStatus(){return {...vault.status(),unlocked:isUnlocked()};}
+function vaultChange(task){const next=vaultOperation.then(task);vaultOperation=next.catch(()=>{});return next;}
+function requireUnlocked(){if(!isUnlocked())throw Error('请先使用主密码解锁会话');}
+function loadGroups(saved){groups.clear();for(const g of saved||[])groups.set(g.id,g);groupsReady=Array.isArray(saved);}
 let lastError='';
 function reportError(error){
   const closed=/No tab with given id\s+(\d+)/.exec(error.message||'');
@@ -28,8 +36,9 @@ function reportError(error){
   lastError=error.message;
 }
 const ready=(async()=>{
-  const saved=await chrome.storage.local.get('nativeGroups');
-  for(const g of saved.nativeGroups||[])groups.set(g.id,g);
+  await chrome.storage.local.setAccessLevel({accessLevel:'TRUSTED_CONTEXTS'});
+  await chrome.storage.session.setAccessLevel({accessLevel:'TRUSTED_CONTEXTS'});
+  loadGroups(await vault.initialize());
   const state=await chrome.storage.session.get(['nativeBindings','nativeGroupLinks']);
   for(const [id,gid] of Object.entries(state.nativeGroupLinks||{}))groupLinks.set(Number(id),gid);
   for(const [id,b] of Object.entries(state.nativeBindings||{}))bindings.set(Number(id),{...b,contexts:new Map(),scripts:new Map()});
@@ -39,6 +48,10 @@ const ready=(async()=>{
   if(stale.length)await chrome.declarativeNetRequest.updateSessionRules({removeRuleIds:stale});
   const live=new Set((await chrome.tabs.query({})).map(t=>t.id));
   for(const id of bindings.keys())if(!live.has(id))bindings.delete(id);
+  if(!isUnlocked()){
+    for(const id of [...bindings.keys()]){await stopTab(id);await chrome.debugger.detach({tabId:id}).catch(()=>{});}
+    groupLinks.clear();
+  }
   await saveBindings();
 })();
 let diskWrites=Promise.resolve(),saveTimer=null;
@@ -50,7 +63,7 @@ function schedulePersist(gid){
 async function persist(){
   if(saveTimer){clearTimeout(saveTimer);saveTimer=null;}
   const dirty=[...dirtyGroups];dirtyGroups.clear();const started=performance.now();
-  const write=diskWrites.then(()=>chrome.storage.local.set({nativeGroups:[...groups.values()]}));
+  const write=diskWrites.then(()=>vault.save([...groups.values()]));
   diskWrites=write.catch(()=>{});await write;
   for(const gid of dirty)timed(gid,'persist',started);
 }
@@ -325,6 +338,10 @@ async function binding(source,p,b){
 }
 chrome.debugger.onEvent.addListener((source,method,p)=>{
   const b=bindings.get(source.tabId);if(!b)return;
+  if(!isUnlocked()){
+    if(method==='Fetch.requestPaused')void command(source,'Fetch.failRequest',{requestId:p.requestId,errorReason:'BlockedByClient'}).catch(()=>{});
+    return;
+  }
   const resourceKey=p.requestId&&networkKey(source,p.requestId),record=networkRecords.get(resourceKey);
   if(method==='Network.responseReceived'&&record){
     if(record.unsafe)resourceCache.invalidate(record.gid);
@@ -372,6 +389,7 @@ chrome.debugger.onDetach.addListener(async(source,reason)=>{
   else{bindings.delete(source.tabId);await saveBindings();}
 });
 async function open(gid,windowId,url,openerId){
+  requireUnlocked();
   const g=groups.get(gid);if(!g)throw Error('分组不存在');
   const tab=await chrome.tabs.create({windowId,url:'about:blank',active:true,...(openerId?{openerTabId:openerId}:{})});
   const b={gid,topUrl:bindings.get(openerId)?.topUrl||url||g.url,contexts:new Map(),scripts:new Map()};bindings.set(tab.id,b);initializing.add(tab.id);
@@ -397,6 +415,7 @@ async function open(gid,windowId,url,openerId){
   finally{initializing.delete(tab.id);}
 }
 async function moveIntoGroup(tab,gid){
+  if(!isUnlocked())return;
   if(moving.has(tab.id)||initializing.has(tab.id))return;
   moving.add(tab.id);
   try{
@@ -419,6 +438,7 @@ async function moveIntoGroup(tab,gid){
   finally{moving.delete(tab.id);}
 }
 async function create(active,name){
+  requireUnlocked();
   const current=await chrome.tabs.get(active.id);
   if(!/^https?:/.test(current.url))throw Error('请先选中要继承登录的普通网站标签页');
   if(bindings.has(active.id))throw Error('请从普通 Chrome 标签页创建新分组');
@@ -435,7 +455,14 @@ chrome.runtime.onMessage.addListener((message,sender,reply)=>{
   if(sender.id!==chrome.runtime.id||sender.url?.split('?')[0]!==endpoint)return;
   (async()=>{
     await ready;
-    if(message.type==='status')return {groups:[...groups.values()].map(publicGroup),current:bindings.get(message.active?.id)?.gid||null,error:lastError,pending:[...pending.values()],trace};
+    if(message.type==='vault-setup'){
+      if(message.consent!==true)throw Error('请先阅读并同意本机会话数据处理说明');
+      return vaultChange(async()=>{loadGroups(await vault.setup(message.password));return vaultStatus();});
+    }
+    if(message.type==='vault-unlock')return vaultChange(async()=>{if(!isUnlocked())loadGroups(await vault.unlock(message.password));return vaultStatus();});
+    if(message.type==='status'&&!isUnlocked())return {vault:vaultStatus(),groups:[],current:null,error:''};
+    requireUnlocked();
+    if(message.type==='status')return {vault:vaultStatus(),groups:[...groups.values()].map(publicGroup),current:bindings.get(message.active?.id)?.gid||null,error:lastError,pending:[...pending.values()],trace};
     if(message.type==='headers')return enqueue(message.gid,async()=>{
       const g=groups.get(message.gid);if(!g)throw Error('分组不存在');
       const config=normalizeHeaders(message.config);resourceCache.invalidate(g.id);g.headers=config;await persist();lastError='';return config;

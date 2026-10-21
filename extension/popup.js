@@ -1,4 +1,4 @@
-const $=id=>document.getElementById(id);let active,current;
+const $=id=>document.getElementById(id);let active,current,vaultState;
 async function call(message){const r=await chrome.runtime.sendMessage(message);if(!r?.ok)throw Error(r?.error||'插件操作失败');return r.result;}
 function headerEditor(group){
   const details=document.createElement('details');details.className='group-headers';
@@ -33,7 +33,8 @@ function headerEditor(group){
 }
 async function refresh(){try{
   [active]=await chrome.tabs.query({active:true,currentWindow:true});
-  const result=await call({type:'status',active});current=result.current;
+  const result=await call({type:'status',active});current=result.current;vaultState=result.vault;
+  if(showVault(vaultState))return;
   if(new URL(location.href).searchParams.has('timings')){
     document.body.replaceChildren();
     for(const g of result.groups){
@@ -47,7 +48,7 @@ async function refresh(){try{
   $('source').textContent=current?'当前页面属于独立会话分组':'当前网站：'+(/^https?:/.test(active.url||'')?new URL(active.url).hostname:'请切到网站标签页');
   $('create').disabled=!current&&!/^https?:/.test(active.url||'');$('create').textContent=current?'在本组新开原生页面':'新建分组 · 继承当前登录';
   $('name').disabled=!!current;$('name').value=current?result.groups.find(g=>g.id===current)?.name||'':(/^https?:/.test(active.url||'')?new URL(active.url).hostname+' · 新账号':'');
-  $('status').textContent=result.error||'';$('list').replaceChildren();
+  $('status').textContent=result.vault?.legacy?'旧版明文副本尚未清理完成。请关闭保存分组后重新加载并解锁重试；当前磁盘保护尚不完整。':result.error||'';$('list').replaceChildren();
   for(const g of result.groups){
     const group=document.createElement('section');group.className='group';group.dataset.gid=g.id;
     const row=document.createElement('div');row.className='row';const name=document.createElement('span');name.className='name';name.textContent=g.name;
@@ -61,4 +62,27 @@ async function act(message){try{await call(message);await refresh();}catch(error
 $('create').onclick=async()=>{try{$('create').disabled=true;$('status').textContent='正在建立原生分组会话…';
   await call(current?{type:'new-tab',gid:current,active}:{type:'create',name:$('name').value,active});
 }catch(error){$('status').textContent=error.message;}finally{$('create').disabled=false;}};
+function showVault(state){
+  const locked=!state?.unlocked,setup=!state?.configured;
+  $('vault-panel').hidden=!locked;$('session-controls').hidden=locked;
+  if(!locked)return false;
+  $('source').textContent='会话已锁定';$('list').replaceChildren();
+  $('vault-title').textContent=setup?'设置主密码':'解锁已保存的会话';
+  $('vault-description').textContent=setup?(state?.legacy?'检测到旧版会话，设置主密码后将加密迁移。':'主密码保护本机保存的 Cookie、站点存储和 Header。'):'请输入主密码。浏览器重启或扩展重新加载后需要再次解锁。';
+  $('vault-confirm-area').hidden=!setup;$('vault-confirm').required=setup;
+  $('vault-consent-area').hidden=!setup;$('vault-consent').required=setup;
+  $('vault-password').autocomplete=setup?'new-password':'current-password';
+  $('vault-submit').textContent=setup?'设置主密码并加密':'解锁';return true;
+}
+$('vault-form').onsubmit=async event=>{
+  event.preventDefault();const setup=!vaultState?.configured,password=$('vault-password').value;
+  $('vault-error').textContent='';
+  if(setup&&password!==$('vault-confirm').value){$('vault-error').textContent='两次输入的主密码不一致';return;}
+  $('vault-submit').disabled=true;
+  try{
+    await call({type:setup?'vault-setup':'vault-unlock',password,consent:$('vault-consent').checked});
+    $('vault-password').value='';$('vault-confirm').value='';await refresh();
+  }catch(error){$('vault-error').textContent=error.message;}
+  finally{$('vault-password').value='';$('vault-confirm').value='';$('vault-submit').disabled=false;}
+};
 refresh();

@@ -1,3 +1,4 @@
+from vault_fixture import unlock_fixture, output_dir
 import os
 """Real-browser cache isolation checks; all accounts/headers are local fakes."""
 import asyncio,json,tempfile
@@ -7,6 +8,7 @@ from playwright.async_api import async_playwright
 from demo import make_app
 from verify_native import until
 ROOT=Path(__file__).resolve().parents[1]
+OUTPUT=output_dir(ROOT)
 
 async def run():
     report=[];app=make_app();runner=web.AppRunner(app);await runner.setup();site=web.TCPSite(runner,'127.0.0.1',0);await site.start()
@@ -25,6 +27,7 @@ async def run():
           await login(original,'Original')
           worker=context.service_workers[0] if context.service_workers else await context.wait_for_event('serviceworker')
           popup=await context.new_page();await popup.goto(worker.url.replace('background.js','popup.html'))
+          await unlock_fixture(popup)
           source=next(t for t in await worker.evaluate('()=>chrome.tabs.query({})') if t.get('url','').rstrip('/')==base)
           async def call(message):
             r=await asyncio.wait_for(popup.evaluate('m=>chrome.runtime.sendMessage(m)',message),30);assert r['ok'],r;return r['result']
@@ -141,7 +144,7 @@ async def run():
           assert order==['auth=parent; auth=child','auth=child; auth=renewed','auth=renewed'],order
           report.append('Cookie domain indexing preserves duplicate-name ordering and updates replacement/expiry without changing scope')
           state=await call({'type':'status','active':source});assert not state['error'],state['error']
-          (ROOT/'checks/cache-result.json').write_text(json.dumps({'passed':True,'browser':context.browser.version,'checks':report,'privacy':'Synthetic localhost accounts/headers only; no real credentials or user cache keys recorded'},indent=2,ensure_ascii=False)+'\n')
+          (OUTPUT/'cache-result.json').write_text(json.dumps({'passed':True,'browser':context.browser.version,'checks':report,'privacy':'Synthetic localhost accounts/headers only; no real credentials or user cache keys recorded'},indent=2,ensure_ascii=False)+'\n')
           for item in report:print('PASS:',item,flush=True)
         except Exception:
           print('LOCAL CACHE COUNTS:',dict(app['cache_requests']),flush=True)

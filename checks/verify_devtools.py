@@ -1,3 +1,4 @@
+from vault_fixture import unlock_fixture, output_dir
 """Native DevTools durable-body regression. Fictitious localhost identities only."""
 import asyncio,json,tempfile,os,base64
 from pathlib import Path
@@ -6,6 +7,7 @@ from playwright.async_api import async_playwright
 from demo import make_app
 from verify_native import until
 ROOT=Path(__file__).resolve().parents[1]
+OUTPUT=output_dir(ROOT)
 async def run():
  report=[];app=make_app();counts={}
  async def api(r):
@@ -33,7 +35,9 @@ async def run():
     async def login(p,name):
      await p.locator('#account').fill(name);await p.locator('#login').click();await p.locator('#identity').filter(has_text=name).wait_for()
     await login(ordinary,'Original');w=c.service_workers[0] if c.service_workers else await c.wait_for_event('serviceworker')
-    ui=await c.new_page();await ui.goto(w.url.replace('background.js','popup.html'));source=next(t for t in await w.evaluate('()=>chrome.tabs.query({})') if t.get('url','').rstrip('/')==base)
+    ui=await c.new_page();await ui.goto(w.url.replace('background.js','popup.html'))
+    await unlock_fixture(ui)
+    source=next(t for t in await w.evaluate('()=>chrome.tabs.query({})') if t.get('url','').rstrip('/')==base)
     async def call(m):
      r=await ui.evaluate('m=>chrome.runtime.sendMessage(m)',m);assert r['ok'],r;return r['result']
     async def group(name):
@@ -94,7 +98,7 @@ async def run():
      await clients['A'].send('Network.configureDurableMessages',{'maxTotalBufferSize':33554432} if mode else {});url=base+'/devtools-api?toggle='+str(mode);v=await xhr(pa,url);assert json.loads(await body('A',url))==v['value']
     report.append('Keep log may be toggled off/on and new API bodies remain readable')
     status=await call({'type':'status','active':source});assert not status['error'],status['error']
-    (ROOT/'checks/devtools-result.json').write_text(json.dumps({'passed':True,'browser':c.browser.version,'checks':report,'privacy':'Fictitious localhost accounts and headers only','scope':'Native non-range Fetch/XHR API, synchronous XHR and POST; synthetic static/range responses retain durable-body limitations'},ensure_ascii=False,indent=2)+'\n')
+    (OUTPUT/'devtools-result.json').write_text(json.dumps({'passed':True,'browser':c.browser.version,'checks':report,'privacy':'Fictitious localhost accounts and headers only','scope':'Native non-range Fetch/XHR API, synchronous XHR and POST; synthetic static/range responses retain durable-body limitations'},ensure_ascii=False,indent=2)+'\n')
     for item in report:print('PASS:',item,flush=True)
    finally:await c.close()
  await runner.cleanup()

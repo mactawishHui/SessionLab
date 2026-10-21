@@ -1,5 +1,6 @@
 <!doctype html><meta charset="utf-8"><title>Session Lab Native</title>
 <style>
+[hidden]{display:none!important}a{color:#216345}#vault-panel p{font-size:12px}#vault-panel input[type=checkbox]{display:inline-block;vertical-align:middle}#vault-error{color:#805a23}button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid #216345;outline-offset:2px}
 body{font:13px -apple-system,sans-serif;width:410px;margin:0;padding:18px;color:#233a30;background:#f5f7f3}
 h2{margin:0 0 12px}p{line-height:1.6}input,button{font:inherit;border:1px solid #cbd6cd;border-radius:7px;padding:10px;box-sizing:border-box}
 input{width:100%;margin:8px 0}button{cursor:pointer;background:white;color:inherit}button:disabled{opacity:.5}
@@ -12,9 +13,24 @@ small{display:block;color:#708073;line-height:1.6;margin-top:12px}#status{white-
 .header-add{padding:7px 10px;font-size:12px}.header-status{font-size:12px;line-height:1.5;margin-top:6px;color:#708073}.header-status:empty{display:none}
 .header-row .header-enabled{padding:0}
 </style>
-<h2>Session Lab Native <small>正式版 · 1.0.0</small></h2><p id="source">读取当前页面…</p>
+<h2>Session Lab Native <small>商店候选版 · 1.0.1</small></h2><p id="source">读取当前页面…</p>
+<section id="vault-panel" hidden aria-labelledby="vault-title">
+<h3 id="vault-title">主密码</h3>
+<p id="vault-description"></p>
+<form id="vault-form">
+<label for="vault-password">主密码（至少 12 个字符）</label>
+<input id="vault-password" type="password" minlength="12" required autocomplete="current-password">
+<div id="vault-confirm-area"><label for="vault-confirm">再次输入主密码</label><input id="vault-confirm" type="password" autocomplete="new-password"></div>
+<div id="vault-consent-area"><p>创建分组会复制当前 Profile 的 Cookie（包括其他网站的登录 Cookie）及当前网站存储。运行中会读取受管标签的 URL、请求/响应与自定义 Header，用于本机隔离和缓存；不会上传到开发者服务器。保存的会话使用主密码加密，密码仅在本机使用。网页自己的 IndexedDB / CacheStorage 不属于主密码加密范围。</p>
+<p>请使用独立且足够长的主密码。没有找回功能，遗忘密码无法恢复已加密的会话。旧版明文数据会在加密写入验证成功后删除；浏览器/系统旧备份可能仍有副本。</p>
+<label><input id="vault-consent" type="checkbox">我已阅读并同意上述数据处理方式，了解密码无法找回。</label></div>
+<p><a href="https://github.com/mactawishHui/SessionLab/blob/main/PRIVACY.md" target="_blank" rel="noopener noreferrer">阅读隐私说明</a></p>
+<button id="vault-submit" type="submit">设置主密码并加密</button>
+</form>
+<p id="vault-error" role="alert"></p></section>
+<section id="session-controls" hidden>
 <input id="name" placeholder="分组名称"><button id="create" disabled>新建分组 · 继承当前登录</button>
-<div id="status" role="status"></div><div id="list"></div>
+<div id="status" role="status"></div><div id="list"></div></section>
 <small>网页直接在 Chrome 中运行，无画面转发。新分组复制当前 Profile Cookie 和当前站点的 localStorage / sessionStorage。组内 Cookie 与 localStorage 共享，其他分组独立。</small>
 <small>支持范围：不继承 IndexedDB；禁用 Worker、Service Worker、WebSocket；网站新标签页自动加入当前分组。需保持 Chrome 的调试连接；取消连接会停止会话。尚不保证任意网站兼容。</small>
 <script type="module" src="popup.js"></script>

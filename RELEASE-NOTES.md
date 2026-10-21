@@ -1,3 +1,15 @@
+# Session Lab Native 1.0.1（商店候选版）
+
+2026-10-21。尚未上传 Chrome Web Store 或提交审核。
+
+新增主密码解锁：扩展保存的 Cookie、站点存储和 Header 快照采用 AES-256-GCM 加密，PBKDF2-SHA256 派生密钥；浏览器重启后需解锁，后台 worker 回收使用仅本次会话密钥恢复。旧 nativeGroups 在密文写入验证后清理，失败会提示并重试。密码遗忘不可恢复。锁定时不返回分组数据或接受业务命令。
+
+新增显式数据处理披露、隐私说明、商店图标和材料。手工加载构建保留原 ID，商店新项目的签名 ID 由商店指定，不保证自动承接旧会话。
+
+验证：19 项 Node、14 项加密浏览器和 42 项原会话/缓存/DevTools 回归通过。浏览器为 Chrome for Testing 156.0.8078.4，临时 Profile 与虚构账号；不是任意网站或审核通过的承诺。网页自己的 IndexedDB/CacheStorage 不属于主密码加密范围。
+
+---
+
 # Session Lab Native 1.0.0
 
 发布日期：2026-10-21。发布形式：本地加载的 Chrome 扩展 ZIP，未上传 Chrome Web Store。

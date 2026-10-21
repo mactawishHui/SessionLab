@@ -1,0 +1,23 @@
+{
+  "date": "2026-10-21T15:36:06.559895+00:00",
+  "fixtureOnly": true,
+  "checks": [
+    "Fresh installation shows setup, hides groups, and returns no group details",
+    "Backend rejects locked business commands and setup without disclosure consent",
+    "Actual setup form rejects mismatched confirmation without creating a vault",
+    "Actual setup form confirms consent, encrypts, unlocks, and clears password inputs",
+    "New encrypted group inherits fictitious Original Cookie and localStorage",
+    "Managed Account A remains distinct from ordinary Original Cookie and storage",
+    "Close/save and reopen restores encrypted group login and localStorage",
+    "Local extension storage contains only authenticated ciphertext envelope and no plaintext group/password/key",
+    "Stopped MV3 worker restores session-only key and encrypted groups without another password",
+    "Full Chrome restart with same profile locks vault, hides groups, and rejects business commands",
+    "Wrong password through actual unlock form fails without overwriting saved ciphertext",
+    "Correct password after cold restart restores saved group and its isolated login/storage",
+    "Legacy plaintext remains recoverable and hidden before explicit setup consent",
+    "Actual setup migrates legacy group into verified ciphertext and removes nativeGroups"
+  ],
+  "passed": true,
+  "chromeVersion": "156.0.8078.4",
+  "count": 14
+}

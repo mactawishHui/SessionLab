@@ -12,7 +12,7 @@ def main():
     output = ROOT / "dist" / f"session-lab-{version}-rebuilt.zip"
     output.parent.mkdir(parents=True, exist_ok=True)
     files = sorted(p for p in (ROOT / "extension").rglob("*") if p.is_file())
-    files += [ROOT / "INSTALL.md", ROOT / "RELEASE-NOTES.md"]
+    files += [ROOT / "INSTALL.md", ROOT / "RELEASE-NOTES.md", ROOT / "PRIVACY.md"]
     with ZipFile(output, "w", compression=ZIP_DEFLATED) as archive:
         for path in files:
             info = ZipInfo(f"Session-Lab-{version}/{path.relative_to(ROOT).as_posix()}", (2026, 1, 1, 0, 0, 0))
