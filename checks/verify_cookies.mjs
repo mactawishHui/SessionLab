@@ -1,0 +1,20 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+const source=await fs.readFile(new URL('../extension/cookies.js',import.meta.url),'utf8');
+const {parse,put,header,matches,visibleCookies}=await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
+const url='https://app.example.test/service',top='https://app.example.test/';
+const tests=[];
+function test(name,fn){try{fn();tests.push({name,passed:true});console.log('PASS:',name);}catch(e){tests.push({name,passed:false,error:e.message});console.log('FAIL:',name,e.message);}}
+const deletion=()=>parse('csrfToken=; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/; HttpOnly; Secure',url);
+const domain=()=>parse('csrfToken=valid-token; Domain=example.test; Path=/; Secure',url);
+test('Unix epoch expiry represents deletion, not a session cookie',()=>{const c=deletion();assert.equal(c.expirationDate,0);assert.equal(matches(c,url),false);});
+test('Imported expired host Cookie cannot shadow a live domain CSRF token',()=>{const jar=[deletion(),domain()];assert.equal(header(jar,url,top,false,'POST'),'csrfToken=valid-token');});
+test('Deletion of an existing host Cookie leaves the domain Cookie intact',()=>{const jar=[domain()];put(jar,parse('csrfToken=old-host; Path=/; Secure',url));put(jar,deletion());assert.equal(header(jar,url,top,false,'POST'),'csrfToken=valid-token');assert.equal(jar.length,1);});
+test('An epoch deletion does not insert an empty live Cookie',()=>{const jar=[];assert.equal(put(jar,deletion()),false);assert.equal(jar.length,0);});
+test('Expired script-visible Cookie is absent from document-visible snapshot',()=>{const c=deletion();c.httpOnly=false;assert.deepEqual(visibleCookies([c,domain()],url).map(c=>c.value),['valid-token']);});
+test('Session cookies without an expiry remain live',()=>{const c=parse('session=alive; Path=/; Secure',url);assert.equal(matches(c,url),true);const jar=[];put(jar,c);assert.equal(header(jar,url,top,false,'POST'),'session=alive');});
+test('Negative expiry is also deleted',()=>{const c=deletion();c.expirationDate=-1;assert.equal(matches(c,url),false);const jar=[];put(jar,c);assert.equal(jar.length,0);});
+test('Max-Age zero overrides a future Expires value',()=>{const c=parse('session=; Max-Age=0; Expires=Fri, 01 Jan 2100 00:00:00 GMT; Path=/',url);assert.equal(matches(c,url),false);});
+test('Positive Max-Age overrides epoch Expires regardless of attribute order',()=>{for(const attrs of ['Max-Age=60; Expires=Thu, 01 Jan 1970 00:00:00 GMT','Expires=Thu, 01 Jan 1970 00:00:00 GMT; Max-Age=60'])assert.equal(matches(parse('session=alive; '+attrs+'; Path=/',url),url),true);});
+test('Deleting one jar does not alter another jar or its CSRF value',()=>{const a=[domain()],b=[parse('csrfToken=other; Domain=example.test; Path=/; Secure',url)];put(a,parse('csrfToken=; Domain=example.test; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/',url));assert.equal(header(a,url,top,false,'POST'),'');assert.equal(header(b,url,top,false,'POST'),'csrfToken=other');});
+if(tests.some(t=>!t.passed))process.exitCode=1;

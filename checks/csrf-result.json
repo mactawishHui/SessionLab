@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "browser": "155.0.8059.85",
+  "checks": [
+    "Document-response epoch deletion leaves domain CSRF valid in A and B",
+    "Native POST response and document.cookie deletion both discard epoch-zero cookies",
+    "A/B/ordinary CSRF, account and Header remain independent",
+    "Startup repairs persisted expired HttpOnly shadow cookies and restores both valid sessions"
+  ],
+  "privacy": "Fictitious example.test loopback accounts only"
+}

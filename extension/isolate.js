@@ -27,7 +27,7 @@ export function isolate(config) {
   const matches=c=>{
     const domain=c.domain.replace(/^\./,'');
     return (c.hostOnly?location.hostname===domain:location.hostname===domain||location.hostname.endsWith('.'+domain))&&
-      (!c.secure||location.protocol==='https:')&&(!c.expirationDate||c.expirationDate>Date.now()/1000)&&
+      (!c.secure||location.protocol==='https:')&&(!Number.isFinite(c.expirationDate)||c.expirationDate>Date.now()/1000)&&
       (location.pathname===(c.path||'/')||location.pathname.startsWith((c.path||'/').replace(/\/?$/,'/')));
   };
   Object.defineProperty(Document.prototype,'cookie',{configurable:false,get:()=>cookies.filter(matches).sort((a,b)=>b.path.length-a.path.length).map(c=>c.name+'='+c.value).join('; '),set:text=>{

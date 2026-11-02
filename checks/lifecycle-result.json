@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "browser": "155.0.8059.85",
+  "checks": [
+    "Duplicate display names carry distinct durable session markers",
+    "Reordering a native tab group retains account and Header",
+    "Moving a complete group across windows preserves binding and per-tab sessionStorage",
+    "Dragging one managed tab to another window re-establishes its session group without ordinary fallback",
+    "Native rename preserves the durable session marker and updates the display name",
+    "Close/save captures both URLs including query/fragment and tab-specific state",
+    "New native group ID rebinds before FIRST wire request; ordinary Profile Cookie never leaks",
+    "Normal open returns to creation HOME including its fragment, not last visited page",
+    "Native close of entire group preserves ALL pages instead of overwriting snapshot with last tab",
+    "Restore all reopens every URL/query/fragment with group Cookie/Header and independent per-tab sessionStorage",
+    "One closed history entry reopens inside its original session with saved tab state",
+    "Popup exposes per-session history, fixed home and restore-all controls",
+    "Other group and ordinary Profile preserve identity/Header; browsing histories remain group scoped",
+    "Explicit legacy group binding reuses the saved session; repeated repair never leaves correct tabs blocked",
+    "After full Chrome restart, durable group marker restores login/Header before first request"
+  ],
+  "privacy": "Only fictitious loopback sessions"
+}

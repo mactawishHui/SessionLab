@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "browser": "155.0.8059.85",
+  "checks": [
+    "Cross-origin anonymous and empty crossorigin scripts omit Cookie while retaining group Header A",
+    "use-credentials, default classic cross-origin and same-origin anonymous scripts retain group identity A",
+    "Anonymous cross-origin CSS and image load without Cookie A",
+    "Anonymous response Set-Cookie cannot mutate group Cookie jar A",
+    "Cross-origin DOM credential lookup cannot block concurrent synchronous XHR A",
+    "Dynamically inserted anonymous script retains credential semantics A",
+    "Cross-origin anonymous and empty crossorigin scripts omit Cookie while retaining group Header B",
+    "use-credentials, default classic cross-origin and same-origin anonymous scripts retain group identity B",
+    "Anonymous cross-origin CSS and image load without Cookie B",
+    "Anonymous response Set-Cookie cannot mutate group Cookie jar B",
+    "Cross-origin DOM credential lookup cannot block concurrent synchronous XHR B",
+    "Dynamically inserted anonymous script retains credential semantics B",
+    "A/B warm reload and ordinary profile retain independent account/Header without shared cache fallback"
+  ],
+  "privacy": "Only fictitious loopback sibling hosts and accounts"
+}

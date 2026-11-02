@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Session Lab Native",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "minimum_chrome_version": "125",
   "description": "原生 Chrome 分组会话：分组独立登录、默认继承当前登录、自定义 Header 与分组缓存。",
   "permissions": [
@@ -13,7 +13,8 @@
     "tabGroups",
     "scripting",
     "webRequest",
-    "declarativeNetRequest"
+    "declarativeNetRequest",
+    "favicon"
   ],
   "host_permissions": [
     "http://*/*",
@@ -25,7 +26,40 @@
   },
   "action": {
     "default_title": "Session Lab Native · 分组会话",
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/16.png",
+      "32": "icons/32.png",
+      "48": "icons/48.png",
+      "128": "icons/128.png"
+    }
   },
-  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuh+ZuqGhGVzVPshg7GnykyL0Zo+DVMaTJ2JO4H/S+RS06kXYx9eU0k4v0wh3UtseyFVkAtnq1uGFDk7f8YSOg8gf2gQqLvwuII9DiEWD/M8fPZqN6mUjvOYc8GiB9Q6SnJHjKE5jAAtGsYuqcBz5TBWaieD17b2WZdYC7jjm1L5EhMZvoJjyEtD2vgL/w7z4G5aQtq0c6ASJEDCFAxPPakED2Wnb28ep8jKREyGJoNuoQCbyuTylAeKH3sa3TH41vRPTaekccly1NldHh/HptcLUTDC+ly4D6B5/V0hheCCdwSTc6jlbaUOCuyFYgjVLlQ50RQcj8TazdKLoGizJ3wIDAQAB"
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuh+ZuqGhGVzVPshg7GnykyL0Zo+DVMaTJ2JO4H/S+RS06kXYx9eU0k4v0wh3UtseyFVkAtnq1uGFDk7f8YSOg8gf2gQqLvwuII9DiEWD/M8fPZqN6mUjvOYc8GiB9Q6SnJHjKE5jAAtGsYuqcBz5TBWaieD17b2WZdYC7jjm1L5EhMZvoJjyEtD2vgL/w7z4G5aQtq0c6ASJEDCFAxPPakED2Wnb28ep8jKREyGJoNuoQCbyuTylAeKH3sa3TH41vRPTaekccly1NldHh/HptcLUTDC+ly4D6B5/V0hheCCdwSTc6jlbaUOCuyFYgjVLlQ50RQcj8TazdKLoGizJ3wIDAQAB",
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "restore_gate",
+        "enabled": true,
+        "path": "restore-rules.json"
+      }
+    ]
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "gate.html",
+        "gate.js"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ]
+    }
+  ],
+  "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  }
 }

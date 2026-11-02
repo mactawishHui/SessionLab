@@ -1,4 +1,4 @@
-const $=id=>document.getElementById(id);let active,current,vaultState;
+const $=id=>document.getElementById(id);let active,current;
 async function call(message){const r=await chrome.runtime.sendMessage(message);if(!r?.ok)throw Error(r?.error||'插件操作失败');return r.result;}
 function headerEditor(group){
   const details=document.createElement('details');details.className='group-headers';
@@ -31,10 +31,27 @@ function headerEditor(group){
   add.onclick=()=>addRow().focus();
   controls.append(rows,add,status);details.append(summary,controls);return details;
 }
+function historyEditor(group){
+  const details=document.createElement('details');details.className='session-history';
+  const summary=document.createElement('summary');summary.textContent='标签页历史 · '+group.history.length;
+  const search=document.createElement('input');search.placeholder='搜索本会话的标题或网址';search.setAttribute('aria-label','搜索本会话历史');
+  const list=document.createElement('div');list.className='history-list';
+  const draw=()=>{list.replaceChildren();const query=search.value.toLowerCase();
+    const entries=group.history.filter(h=>(h.title+' '+h.url).toLowerCase().includes(query)).slice(0,40);
+    if(!entries.length){const empty=document.createElement('p');empty.textContent='暂无历史记录';list.append(empty);}
+    for(const h of entries){const row=document.createElement('div');row.className='history-item';
+      const button=document.createElement('button');button.textContent=h.title||h.url;button.title=h.url;button.onclick=()=>act({type:'history-open',gid:group.id,entry:h.id,active});
+      const icon=document.createElement('img');icon.className='history-favicon';icon.alt='';const image=new URL(chrome.runtime.getURL('/_favicon/'));image.searchParams.set('pageUrl',h.url);image.searchParams.set('size','32');icon.src=image.href;icon.onerror=()=>{icon.onerror=null;icon.src='icons/16.png';};
+      const text=document.createElement('div');text.className='history-text';
+      const domain=document.createElement('div');domain.className='history-domain';domain.textContent=h.domain||new URL(h.url).hostname;
+      const caption=document.createElement('small');caption.textContent=(h.kind==='closed'?'已关闭 · ':'最近访问 · ')+new Date(h.at).toLocaleString();
+      text.append(button,domain,caption);row.append(icon,text);list.append(row);
+    }
+  };search.oninput=draw;draw();details.append(summary,search,list);return details;
+}
 async function refresh(){try{
   [active]=await chrome.tabs.query({active:true,currentWindow:true});
-  const result=await call({type:'status',active});current=result.current;vaultState=result.vault;
-  if(showVault(vaultState))return;
+  const result=await call({type:'status',active});current=result.current;
   if(new URL(location.href).searchParams.has('timings')){
     document.body.replaceChildren();
     for(const g of result.groups){
@@ -48,41 +65,28 @@ async function refresh(){try{
   $('source').textContent=current?'当前页面属于独立会话分组':'当前网站：'+(/^https?:/.test(active.url||'')?new URL(active.url).hostname:'请切到网站标签页');
   $('create').disabled=!current&&!/^https?:/.test(active.url||'');$('create').textContent=current?'在本组新开原生页面':'新建分组 · 继承当前登录';
   $('name').disabled=!!current;$('name').value=current?result.groups.find(g=>g.id===current)?.name||'':(/^https?:/.test(active.url||'')?new URL(active.url).hostname+' · 新账号':'');
-  $('status').textContent=result.vault?.legacy?'旧版明文副本尚未清理完成。请关闭保存分组后重新加载并解锁重试；当前磁盘保护尚不完整。':result.error||'';$('list').replaceChildren();
+  $('status').textContent=result.error||'';$('list').replaceChildren();
   for(const g of result.groups){
     const group=document.createElement('section');group.className='group';group.dataset.gid=g.id;
     const row=document.createElement('div');row.className='row';const name=document.createElement('span');name.className='name';name.textContent=g.name;
-    const open=document.createElement('button');open.textContent=g.tabs.length?'定位':'打开';open.onclick=()=>act({type:'open',gid:g.id,active});
+    const open=document.createElement('button');open.textContent=g.tabs.length?'主页':'打开主页';open.onclick=()=>act({type:'open',gid:g.id,active});
     const close=document.createElement('button');close.textContent='关闭保存';close.disabled=!g.tabs.length;close.onclick=()=>act({type:'close',gid:g.id});
     const remove=document.createElement('button');remove.textContent='删除';remove.disabled=!!g.tabs.length;remove.onclick=()=>act({type:'delete',gid:g.id});
-    row.append(name,open,close,remove);group.append(row,headerEditor(g));$('list').append(group);
+    const home=document.createElement('div');home.className='session-home';
+    const address=document.createElement('span');address.textContent='主页：'+g.homeUrl;address.title=g.homeUrl;
+    const setHome=document.createElement('button');setHome.textContent='将当前页设为主页';setHome.disabled=!/^https?:/.test(active.url||'');
+    setHome.onclick=()=>act({type:'set-home',gid:g.id,url:active.url});
+    const restore=document.createElement('button');restore.className='restore-window';restore.textContent='恢复上次全部页面'+(g.windowTabs.length?'（'+g.windowTabs.length+'）':'');restore.disabled=!!g.tabs.length||!g.windowTabs.length;
+    restore.onclick=()=>act({type:'restore-window',gid:g.id,active});
+    const bind=document.createElement('button');bind.className='bind-current';bind.textContent='绑定当前 Chrome 分组';bind.disabled=!!current||!(active.groupId>=0);
+    bind.title='修复旧版未绑定分组：请先切到该组内页面，再在原会话下点击此按钮。不会复制普通 Profile 的登录态。';
+    bind.onclick=()=>act({type:'bind-group',gid:g.id,active});
+    home.append(address,setHome,restore,bind);
+    row.append(name,open,close,remove);group.append(row,home,headerEditor(g),historyEditor(g));$('list').append(group);
   }
 }catch(error){$('status').textContent=error.message;}}
 async function act(message){try{await call(message);await refresh();}catch(error){$('status').textContent=error.message;}}
 $('create').onclick=async()=>{try{$('create').disabled=true;$('status').textContent='正在建立原生分组会话…';
   await call(current?{type:'new-tab',gid:current,active}:{type:'create',name:$('name').value,active});
 }catch(error){$('status').textContent=error.message;}finally{$('create').disabled=false;}};
-function showVault(state){
-  const locked=!state?.unlocked,setup=!state?.configured;
-  $('vault-panel').hidden=!locked;$('session-controls').hidden=locked;
-  if(!locked)return false;
-  $('source').textContent='会话已锁定';$('list').replaceChildren();
-  $('vault-title').textContent=setup?'设置主密码':'解锁已保存的会话';
-  $('vault-description').textContent=setup?(state?.legacy?'检测到旧版会话，设置主密码后将加密迁移。':'主密码保护本机保存的 Cookie、站点存储和 Header。'):'请输入主密码。浏览器重启或扩展重新加载后需要再次解锁。';
-  $('vault-confirm-area').hidden=!setup;$('vault-confirm').required=setup;
-  $('vault-consent-area').hidden=!setup;$('vault-consent').required=setup;
-  $('vault-password').autocomplete=setup?'new-password':'current-password';
-  $('vault-submit').textContent=setup?'设置主密码并加密':'解锁';return true;
-}
-$('vault-form').onsubmit=async event=>{
-  event.preventDefault();const setup=!vaultState?.configured,password=$('vault-password').value;
-  $('vault-error').textContent='';
-  if(setup&&password!==$('vault-confirm').value){$('vault-error').textContent='两次输入的主密码不一致';return;}
-  $('vault-submit').disabled=true;
-  try{
-    await call({type:setup?'vault-setup':'vault-unlock',password,consent:$('vault-consent').checked});
-    $('vault-password').value='';$('vault-confirm').value='';await refresh();
-  }catch(error){$('vault-error').textContent=error.message;}
-  finally{$('vault-password').value='';$('vault-confirm').value='';$('vault-submit').disabled=false;}
-};
 refresh();

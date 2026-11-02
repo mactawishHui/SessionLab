@@ -1,0 +1,21 @@
+{
+  "version": "1.1.1",
+  "old_version": "1.1.0",
+  "old_native_newtab_paste_test": "failed: terminal client block; final target never reached server",
+  "newtab_ui_checks": 7,
+  "independent_late_target_checks": 1,
+  "independent_history_checks": 3,
+  "independent_review": "ultra",
+  "permissions_added": [
+    "favicon"
+  ],
+  "debugger_banner": "Chrome-owned; startup options unchanged; optional launcher not executed",
+  "local_chrome_update": "installed; original two groups preserved",
+  "privacy": "Only fictitious accounts in automated tests; no Profile or session data included in release",
+  "local_chrome_validation": {
+    "native_new_tab_to_right_then_paste_aidap_url": "loaded workspace successfully, no extension blocked error",
+    "history": "per-tab merged list with Chrome-local favicon and domain",
+    "visible_group_titles": "UUID suffix removed from open groups and legacy saved-group bookmarks",
+    "debugger_banner": "unchanged; user has not authorized alternate Chrome startup"
+  }
+}

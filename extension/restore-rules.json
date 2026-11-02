@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": {
+        "regexSubstitution": "chrome-extension://bahdeeelkjdmmphobgajdepfdpmcfade/gate.html#\\0"
+      }
+    },
+    "condition": {
+      "regexFilter": "^https?://.*",
+      "requestMethods": [
+        "get",
+        "head"
+      ],
+      "resourceTypes": [
+        "main_frame"
+      ]
+    }
+  }
+]

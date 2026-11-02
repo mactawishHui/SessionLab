@@ -1,0 +1,54 @@
+{
+  "version": "1.1.1",
+  "date": "2026-10-29",
+  "extension_id": "bahdeeelkjdmmphobgajdepfdpmcfade",
+  "api_permissions_added": [
+    "favicon"
+  ],
+  "storage": "Compatible optional home/history/window snapshot fields; existing login/header retained",
+  "validation": "Previous isolation regressions plus per-tab history, hidden marker, new-tab and late-target/click races; see checks and docs/UI-1.1.1-REVIEW.md",
+  "independent_review": "ultra, docs/LIFECYCLE-REVIEW.md",
+  "local_chrome_update": "installed",
+  "installed_runtime_matches": true,
+  "ui_changes": [
+    "grouped newtab paste race fixed",
+    "history per logical tab",
+    "domain and Chrome-local favicon",
+    "invisible UUID title metadata"
+  ],
+  "debug_banner": "Chrome default unchanged; optional launcher requires explicit user choice",
+  "boundaries": [
+    "Full Chrome eager multi-window startup may send a Profile request before extensions activate. Strict test retained under checks/boundaries; use plugin restore for strict debugging.",
+    "A live ordinary page can issue XHR before Chrome delivers a drag/group-change event; extension APIs cannot retroactively isolate it."
+  ],
+  "packaging_checks": [
+    "ZIP CRC and safe relative paths",
+    "fixed key/ID/host permissions; only favicon permission added",
+    "all runtime imports/resources/icons resolve",
+    "installed runtime status recorded separately",
+    "no temporary upgrade scripts or profile/session data"
+  ],
+  "runtime_sha256": {
+    "_metadata/generated_indexed_rulesets/_ruleset1": "e6976e8db32b7359d5057bf75f9e560d76644a3741c8dcf82dd9f1942e44303f",
+    "background.js": "e6fdb15ca02a20a1ff011921e629721a609d29967cfdc046e0f8def32e1d6aac",
+    "bytes.js": "6b1033877f7777791d504271ab7a1a78f4b244403943aa209bf77a195b964611",
+    "cache.js": "038b82ee510e68de061cec1524d107daa50ec223a15cc51f020ca927267401a9",
+    "cookies.js": "1128d7804c5eb7467c47d49604d8a060869631866df8c83b22d5da25b372b5f8",
+    "credentials.js": "5771b994d1ce915d2c75c9d24a133c2c3a4536e4278e7ac79a48ec358d6e225b",
+    "gate.html": "954a703ffeba9fcb5e72bec4e0779c4794efeda3f46cf71dd6bb6d2bfe9396eb",
+    "gate.js": "9fbb4bed0f818ba87fda629eb6a26a3658d619d21ce4dc2845560049c32f5b57",
+    "headers.js": "38adce2425a07c52f879e58e442f6517f03540051608cd5389ffaa1e0f6b3d78",
+    "icons/128.png": "968e4e35a10e41bd1b0d34b0de14187ec9787aa8f98725f136fef92c0e8229e2",
+    "icons/16.png": "2d7183650dc0304dc6e17bb0eca7091de3ad6cf8cb6f7687ef186d5e3bfaf7b2",
+    "icons/32.png": "b2dd9b4bdc60376a6c39c647eb70a58922a441598c293e8e9750c99cf6ec840d",
+    "icons/48.png": "dc06669b111a0f719093f1ce36b8f743fffaf853c9d0dc4830124b6bd76d89a2",
+    "isolate.js": "d51650082ee8e8e6239644655831aedf8a03cce5389d7c9ffd3388b2f87f0694",
+    "lifecycle.js": "0d266abca11ab24eac600892b42d25112e730f0e27cb52cf859a061553f15bce",
+    "manifest.json": "c916e694515134b57af2091603487f9f5ec101d8d841546ad465970c0bad9039",
+    "popup.html": "19b04e0f0b49d59e2ae22d1426e672fd5d3387a196a976f39d49bab88bd09612",
+    "popup.js": "93fffdd1b58374ec9fe0d032d7231ca1a8df93a0135594c829fe79ec2b5860f7",
+    "restore-rules.json": "e3a2f6576d73605daaed2c89ed99e43e2780922012d9c04c8cb13a543146df0c",
+    "rules.js": "d938f4f7740505b29e858bab744feb127126222a60df0093a8f68add57b977cc",
+    "stopped.html": "1b1f2f860e06f2cff2e4dc1e9d3d03f287e26e72af2111b0890ede1ed6c8b2e4"
+  }
+}

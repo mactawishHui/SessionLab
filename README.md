@@ -1,81 +1,51 @@
-# SessionLab
+# Session Lab Native 1.1.1
 
-在同一个 Chrome 浏览器中，为同一网站管理多个账号。每个 Session 对应一个标签页分组：创建时继承当前登录状态，之后同组标签共享会话，各组分别管理。
+在同一个 Chrome Profile 内，按标签页分组管理独立登录态、Header 和缓存。网页使用原生标签页和 DevTools，不需要本地服务；未上架 Chrome Web Store。
 
-扩展中显示名称为 **Session Lab Native**，仓库源码为 **1.0.1 商店候选版**，稳定下载仍为 **1.0.0**。无需 Python 后台或本地服务；采用 Manifest V3，网页直接在 Chrome 原生标签页中运行。
+## 使用
 
-## Chrome Web Store 上架准备
+1. 在已登录的普通页面打开插件，点击“新建分组 · 继承当前登录”。复制当前 Profile Cookie 和源站点的 localStorage/sessionStorage；该完整网址固定为新会话主页。
+2. 在组内切换账号。同组标签共享 Cookie/localStorage，其他组与普通 Profile 独立；登录新标签自动归组。
+3. “打开主页/主页”进入固定主页；组内新开页默认使用主页。进入其他页面后可点“将当前页设为主页”。
+4. 展开本组 Header 设置，逐条添加、删除、勾选和编辑；自动保存，对本组全部 HTTP(S) 页面生效。
+5. 展开本组“标签页历史”，查看标题、域名和图标。同一标签页跳转、刷新、前进后退合并为一条最新记录；已打开条目点击定位，关闭条目点击恢复。同项并发恢复合并，关闭记录保留逐页 sessionStorage。最多 150 条，仅本机保存；旧导航流水保留在 legacyHistory 归档，不再刷屏。
+6. 点击“关闭保存”，或用 Chrome 原生关闭分组。之后点“恢复上次全部页面”，恢复所有页面、顺序、活动页和逐页 sessionStorage；已打开的组通过历史恢复单页。
+7. 分组名称只显示名称；恢复 UUID 用不可见标记保存，兼容旧版明文 SL 后缀并自动迁移。恢复/新导航短暂经过本机入口，再显示原网站。
+8. 原生 DevTools Network 可查看常规 Fetch/XHR 响应；旧缺失记录需要重新请求。
 
-1.0.1 新增主密码加密保存和重启解锁，正在准备商店发行，**尚未在商店上架**。上传包、图标、真实截图、文案、权限理由和审核说明见 [商店材料](store/README.md)；数据处理见 [隐私说明](PRIVACY.md)。商店新签名 ID 不保证与旧手工加载扩展相同，已有分组不会自动跨 ID 迁移。
+## 旧会话升级
 
-## 下载与安装
+保留原扩展与加载目录，勿卸载或清除存储。完整步骤见 [INSTALL.md](INSTALL.md)。旧 Chrome 分组失去绑定时，切到该组中的页面，在插件原会话条目下点“绑定当前 Chrome 分组”，按原会话重载；不会重新复制普通 Profile 登录。新版不按同名自动接管普通组。
 
-- [下载 v1.0.0 插件安装包](https://github.com/mactawishHui/SessionLab/releases/download/v1.0.0/session-lab-1.0.0.zip)
-- [查看所有 Release](https://github.com/mactawishHui/SessionLab/releases)
-- 仓库也保留同一份原始安装包：[dist/session-lab-1.0.0.zip](dist/session-lab-1.0.0.zip)，校验值见 [dist/SHA256SUMS.txt](dist/SHA256SUMS.txt)。
+旧版没有保存最初创建页，无法精确追溯旧会话主页；升级后在所需页面点“将当前页设为主页”设置一次。新会话自动设置源页面，无需手动操作。
 
-1. 下载并解压安装包到长期保留的目录，或克隆本仓库。
-2. 打开 `chrome://extensions`，开启右上角的“开发者模式”。
-3. 点击“加载已解压的扩展程序”，选择包含 `manifest.json` 的 `extension/` 文件夹。安装包中位于 `Session-Lab-1.0.0/extension/`。
-4. 将 **Session Lab Native** 固定到工具栏。
+## 支持范围与验证
 
-ZIP 需要先解压，本项目尚未发布到 Chrome Web Store。完整步骤和保留现有会话的升级方式见 [INSTALL.md](INSTALL.md)。**升级前请先“关闭保存”受管分组，覆盖原加载目录后重新加载；不要卸载扩展或清除扩展存储。**
+使用 Chrome for Testing 155 进行虚构站点回归，包括缓存、Header、登录新页、CSRF、匿名资源、同步 XHR、原生响应正文及新增生命周期/竞态测试。独立 ultra 审查发现的身份切换、取消续体、关闭批次和真实 Chrome 启动恢复问题均纳入回归。结果见 checks/。
 
-## 使用方式
+这是 API 层兼容方案，不是浏览器内核容器：普通活页面刚被拖入组、Chrome 尚未交付分组变化事件时，自发 XHR 仍存在普通身份时序窗口。严格会话测试请从插件新建/恢复组内页面。特殊依赖原始导航来源字段的站点也需兼容验证。当前不继承原 Profile IndexedDB，禁用 Worker/Service Worker/WebSocket；不保证所有网站、流式、大文件与窗口通信兼容。请保留调试连接。
 
-1. 在普通标签页登录目标网站，打开扩展，填写分组名称，点击“新建分组 · 继承当前登录”。
-2. 为同一网站创建多个分组，在各组内切换不同账号。同组共享会话，其他分组与普通标签各自独立。
-3. 在组内通过扩展“在本组新开原生页面”；网站登录流程新开的页面也会自动归入来源组。
-4. 可为各组分别配置自定义 Header，每条独立启用，修改自动保存。
-5. 点击“关闭保存”保存并关闭分组，下次通过“打开”恢复，或通过“定位”切换到已打开的分组。
+## 文件
 
-新建时复制 Cookie 和当前网站的 localStorage/sessionStorage 快照；恢复已有分组时使用其保存状态。同组 Cookie 与 localStorage 共享更新，sessionStorage 按页面生命周期管理。
+- [安装说明](INSTALL.md)、[发布说明](RELEASE-NOTES.md)
+- [架构与边界](docs/ARCHITECTURE.md)、[维护与测试](docs/MAINTENANCE.md)
+- [图标原图与生成提示词](docs/ICON.md)
+- [Chrome 调试提示与可选启动方式](docs/DEBUG-BANNER.md)
 
-## 权限、数据与兼容性
+安装包只包含运行代码和说明；完整包另含源码、文档和虚构测试，不含用户登录数据、浏览器 Profile、真实业务响应或录屏。
 
-- 使用 `debugger` 接管受管标签的网络请求，使用 Cookie、存储、标签页、标签分组、脚本和网络规则权限实现会话管理。需要访问 HTTP/HTTPS 网站；完整权限见 [manifest.json](extension/manifest.json)。
-- 1.0.1 的保存会话经主密码加密保存在本机扩展存储中；1.0.0 原包尚无该保护。请勿分享扩展存储或 Chrome Profile；仓库及安装包不携带用户会话。
-- 需要保持 Chrome 的调试连接，不要取消“正在调试此浏览器”提示；断开后需通过扩展重新打开分组。
-- Manifest 声明最低 Chrome 125；原项目提供的验收记录使用 Chrome 155.0.8059.85，最低版本声明不等于完整兼容性保证。
-- 不继承原 Profile 的 IndexedDB；禁用 Worker、Service Worker、WebSocket。部分窗口通信、登录流程、流式响应及大文件可能不兼容。
-- 普通 GET/HEAD API 会使用内部范围条件 Header 避免共享 HTTP 缓存，可能与某些网关或请求签名方案冲突。显式 Range 请求及静态合成响应在 DevTools Keep log 下不保证显示正文。
-- 这是浏览器 API 层的会话隔离方案，并非浏览器内核安全容器；服务端主动撤销共享会话时，相关副本也可能一起失效。
+## 1.1.1 新标签与外观修复
 
-完整边界见 [安装说明](INSTALL.md)与[架构说明](docs/ARCHITECTURE.md)。
+接管准备期的主页面导航进入本机 gate，而非终止阻止规则；先等 Chrome 新标签页提交到空白/恢复文档再附加，合并并发初始化并跟进最终 URL。修复右侧新建标签后快速粘贴网址被阻止或目标被旧地址覆盖。历史图标使用 Chrome 本机 `_favicon` 接口，新增 favicon 权限（已有 tabs/host 权限覆盖其提示），不使用第三方图标服务。
 
-## 源码与打包
+顶部“started debugging this browser”是 Chrome 安全提示，插件没有关闭开关。可选 Chrome 启动参数会对该进程全部调试型扩展隐藏提示，必须用户明确选择；默认不调整、不自动运行源码 tools/ 的可选入口。
 
-```text
-extension/          可直接加载的扩展源码
-checks/             虚构站点测试、历史测试记录与演示截图
-docs/               架构、维护与打包验证说明
-scripts/package.py  使用 Python 标准库生成安装 ZIP
-dist/               原始 1.0.0 安装 ZIP 与 SHA-256
-INSTALL.md          安装、升级与日常操作
-RELEASE-NOTES.md    原版本发布说明
-```
+## GitHub 下载与本次导入
 
-运行不需要 npm install 或编译。1.0.1 首次运行需设置至少 12 字符的主密码并确认披露；浏览器重启或扩展重新加载后需解锁。密码无法找回。修改源码后在扩展管理页重新加载。重新生成安装包：
+- [下载 1.1.1 插件包](https://github.com/mactawishHui/SessionLab/releases/download/v1.1.1/session-lab-1.1.1.zip)
+- [Release 与完整包](https://github.com/mactawishHui/SessionLab/releases/tag/v1.1.1)
+- 仓库内安装包：[dist/session-lab-1.1.1.zip](dist/session-lab-1.1.1.zip)，[SHA-256](dist/SHA256SUMS.txt)。
+- 插件无需编译；本地重建：`python3 scripts/package.py`，输出 `dist/session-lab-1.1.1-rebuilt.zip`，不覆盖原始安装包。
+- 本次于 2026-11-02 从提供的 1.1.1 完整包导入，运行文件保留原样。随包浏览器测试记录为原环境的历史验收，本次实际执行范围见[导入核验](docs/GITHUB-RELEASE.md)。
 
-```sh
-python3 scripts/package.py
-```
-
-输出为 `dist/session-lab-1.0.1-rebuilt.zip`，保留原始安装包；使用固定时间戳以便重复打包校验。重新打包后的 ZIP 字节与原包可能不同，内含扩展文件应与当前源码一致。原扩展公钥和 ID `bahdeeelkjdmmphobgajdepfdpmcfade` 保持不变。
-
-## 验证与文档
-
-原项目附带的 42 项检查历史报告保留原样；1.0.1 在 Chrome 156 上重新通过同一组 42 项回归，并通过新增 14 项主密码浏览器检查和 19 项 Node 检查，详见[商店材料](store/README.md)。首次导入检查范围见 [仓库发布核验](docs/PUBLISHING.md)。开发环境及测试运行方式见 [维护文档](docs/MAINTENANCE.md)。
-
-- [原版发布说明](RELEASE-NOTES.md)
-- [DevTools 修复说明](checks/devtools-fix.md)
-- [历史检查汇总](checks/devtools-fix-result.json)
-- [首次加载性能样本](checks/cold-start-performance.md)与[缓存性能样本](checks/performance.md)
-
-以下为原项目的虚构账号演示截图，界面版本可能早于 1.0.0：
-
-![分组 Header 配置示例](checks/header-ui.png)
-
-## 许可
-
-当前未指定开源许可证。仓库公开供查看，使用、修改与再分发的授权以项目所有者后续明确的许可为准。
+**与此前 GitHub 商店候选分支的区别：** 本包使用 `nativeGroups` 存储，不包含此前 `v1.0.1-rc.1` 的主密码/`nativeVault` 模块，也没有该密文格式的迁移功能。若曾安装该候选版并保存会话，请保留旧加载目录与其数据；本次覆盖的是项目源码，不会修改你已安装扩展的存储。旧候选版仍可从历史 Release 获取，不应将本版视为其加密数据的无缝升级。

@@ -1,0 +1,54 @@
+{
+  "version": "1.1.0",
+  "date": "2026-10-29",
+  "extension_id": "bahdeeelkjdmmphobgajdepfdpmcfade",
+  "api_permissions_unchanged": true,
+  "storage": "Compatible optional home/history/window snapshot fields; existing login/header retained",
+  "functional_checks": 105,
+  "independent_review": "ultra, docs/LIFECYCLE-REVIEW.md",
+  "local_chrome_gui": {
+    "native_close_and_reopen_two_page_group": true,
+    "group_login_persists": true,
+    "history_reopens_closed_page_in_same_group": true,
+    "home_opens_creation_page_instead_of_last_url": true,
+    "ordinary_demo_identity_unchanged": true,
+    "upgrade_preserves_original_page_sets": [
+      4,
+      3
+    ]
+  },
+  "boundaries": [
+    "Full Chrome eager multi-window startup may send a Profile request before extensions activate. Strict test retained under checks/boundaries; use plugin restore for strict debugging.",
+    "A live ordinary page can issue XHR before Chrome delivers a drag/group-change event; extension APIs cannot retroactively isolate it."
+  ],
+  "packaging_checks": [
+    "ZIP CRC and safe relative paths",
+    "fixed key/ID/API permissions",
+    "all runtime imports/resources/icons resolve",
+    "installed runtime bytes equal canonical",
+    "no temporary upgrade scripts or profile/session data"
+  ],
+  "runtime_sha256": {
+    "_metadata/generated_indexed_rulesets/_ruleset1": "e6976e8db32b7359d5057bf75f9e560d76644a3741c8dcf82dd9f1942e44303f",
+    "background.js": "d46cb5d4290701df8e1792530ec16b4911e60b1cd5e956cd77a0c6fa6737bc13",
+    "bytes.js": "6b1033877f7777791d504271ab7a1a78f4b244403943aa209bf77a195b964611",
+    "cache.js": "038b82ee510e68de061cec1524d107daa50ec223a15cc51f020ca927267401a9",
+    "cookies.js": "1128d7804c5eb7467c47d49604d8a060869631866df8c83b22d5da25b372b5f8",
+    "credentials.js": "5771b994d1ce915d2c75c9d24a133c2c3a4536e4278e7ac79a48ec358d6e225b",
+    "gate.html": "954a703ffeba9fcb5e72bec4e0779c4794efeda3f46cf71dd6bb6d2bfe9396eb",
+    "gate.js": "9fbb4bed0f818ba87fda629eb6a26a3658d619d21ce4dc2845560049c32f5b57",
+    "headers.js": "38adce2425a07c52f879e58e442f6517f03540051608cd5389ffaa1e0f6b3d78",
+    "icons/128.png": "968e4e35a10e41bd1b0d34b0de14187ec9787aa8f98725f136fef92c0e8229e2",
+    "icons/16.png": "2d7183650dc0304dc6e17bb0eca7091de3ad6cf8cb6f7687ef186d5e3bfaf7b2",
+    "icons/32.png": "b2dd9b4bdc60376a6c39c647eb70a58922a441598c293e8e9750c99cf6ec840d",
+    "icons/48.png": "dc06669b111a0f719093f1ce36b8f743fffaf853c9d0dc4830124b6bd76d89a2",
+    "isolate.js": "d51650082ee8e8e6239644655831aedf8a03cce5389d7c9ffd3388b2f87f0694",
+    "lifecycle.js": "7ed3eca5d8eefcb97fe5322a9616f43820e14d03f2ca8f3114243d17700354d6",
+    "manifest.json": "c97f89f77c1a82dc151d50937734440e8e86ed8ebb782ecdf2498617c3e13258",
+    "popup.html": "92f9b4ffb66c48895046a9889c8a7f6b60220974f5bb47b434c16be78eb2536b",
+    "popup.js": "8c249097fec7268b20aa88abd9c380b483a54ed10690a562f3fd23a5f201ebed",
+    "restore-rules.json": "e3a2f6576d73605daaed2c89ed99e43e2780922012d9c04c8cb13a543146df0c",
+    "rules.js": "d938f4f7740505b29e858bab744feb127126222a60df0093a8f68add57b977cc",
+    "stopped.html": "1b1f2f860e06f2cff2e4dc1e9d3d03f287e26e72af2111b0890ede1ed6c8b2e4"
+  }
+}

@@ -2,6 +2,9 @@ export function domainMatches(host, domain) {
   domain=domain.replace(/^\./,'').toLowerCase();
   return host===domain||host.endsWith('.'+domain);
 }
+// Epoch zero is a real expiry used by Set-Cookie deletion responses.
+// Only an absent/non-numeric expiry denotes a session cookie.
+export const expired=(cookie,now=Date.now()/1000)=>Number.isFinite(cookie.expirationDate)&&cookie.expirationDate<=now;
 const indexes=new WeakMap();
 const cookieKey=c=>[c.name,c.domain.replace(/^\./,''),c.path||'/',JSON.stringify(c.partitionKey||null)].join('|');
 function index(jar){
@@ -20,7 +23,7 @@ function candidates(jar,hostname){
 }
 export function matches(cookie,url) {
   const u=typeof url==='string'?new URL(url):url, path=cookie.path||'/';
-  if(cookie.expirationDate&&cookie.expirationDate<=Date.now()/1000)return false;
+  if(expired(cookie))return false;
   if(cookie.secure&&u.protocol!=='https:')return false;
   if(cookie.hostOnly?u.hostname!==cookie.domain:!domainMatches(u.hostname,cookie.domain))return false;
   return u.pathname===path||u.pathname.startsWith(path.endsWith('/')?path:path+'/');
@@ -47,7 +50,7 @@ export function header(jar,url,topUrl,topNavigation,method) {
 }
 export function put(jar,cookie) {
   const lookup=index(jar),key=cookieKey(cookie),old=lookup.keys.get(key);
-  const alive=!cookie.expirationDate||cookie.expirationDate>Date.now()/1000;
+  const alive=!expired(cookie);
   if(old&&alive&&old.value===cookie.value&&!!old.hostOnly===!!cookie.hostOnly&&!!old.secure===!!cookie.secure&&!!old.httpOnly===!!cookie.httpOnly&&old.expirationDate===cookie.expirationDate&&old.sameSite===cookie.sameSite)return false;
   if(!old&&!alive)return false;
   if(old){const at=jar.indexOf(old);if(at>=0)jar.splice(at,1);lookup.order.delete(old);}

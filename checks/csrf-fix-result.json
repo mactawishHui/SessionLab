@@ -1,0 +1,23 @@
+{
+  "version": "1.0.1",
+  "passed": true,
+  "checks": {
+    "cookie": 10,
+    "csrfBrowser": 4,
+    "native": 16,
+    "cache": 15,
+    "devtools": 11
+  },
+  "localChrome": {
+    "installedVersion": "1.0.1",
+    "originalGroupEntryOpensContextSearch": true,
+    "checkServiceLinkedRole": true,
+    "checkServiceLinkedRoleError": null,
+    "sceneLoads": true,
+    "nativeResponseReadable": true,
+    "originalDevHeaderPreserved": true,
+    "ordinarySceneLoads": true,
+    "otherSavedGroup": "Restored saved sign-in URL; no credential entry performed."
+  },
+  "privacy": "No real credentials, account IDs or business response bodies included."
+}

@@ -1,0 +1,47 @@
+{
+  "version": "1.0.3",
+  "local_reproduction": {
+    "baseline": "1.0.2",
+    "symptom": "Dynamic cross-origin script plus synchronous XHR blocks indefinitely",
+    "pending_cdp_method": "DOM.getDocument",
+    "timeout_seconds": 8,
+    "only_fictitious_loopback_accounts": true
+  },
+  "fix": "Resolve DOM credential metadata outside the per-group network queue; Cookie/Header and response state remain serialized",
+  "automated_checks": 83,
+  "actual_aidap_validation": {
+    "baseline_pending_cdp_method": "DOM.querySelectorAll",
+    "managed_original_group": "AIDAP welcome home and region navigation load successfully",
+    "reload": "successful",
+    "native_api_status": 200,
+    "native_api_response_body_readable": true,
+    "ordinary_tab": "AIDAP welcome home loads successfully",
+    "observed_refresh": {
+      "dom_content_loaded_ms": 688,
+      "load_ms": 4530
+    },
+    "privacy": "No Cookie, account identifiers or business response bodies retained"
+  },
+  "extension_id": "bahdeeelkjdmmphobgajdepfdpmcfade",
+  "runtime_sha256": {
+    "background.js": "ec586ad1f2f6eb9dce97e5758d1df52a1927dc48b112a262ba94c4d9321c8047",
+    "bytes.js": "6b1033877f7777791d504271ab7a1a78f4b244403943aa209bf77a195b964611",
+    "cache.js": "038b82ee510e68de061cec1524d107daa50ec223a15cc51f020ca927267401a9",
+    "cookies.js": "1128d7804c5eb7467c47d49604d8a060869631866df8c83b22d5da25b372b5f8",
+    "credentials.js": "5771b994d1ce915d2c75c9d24a133c2c3a4536e4278e7ac79a48ec358d6e225b",
+    "headers.js": "38adce2425a07c52f879e58e442f6517f03540051608cd5389ffaa1e0f6b3d78",
+    "isolate.js": "d51650082ee8e8e6239644655831aedf8a03cce5389d7c9ffd3388b2f87f0694",
+    "manifest.json": "8f70826d8afb5aac9a0e36c2bedc32181330d1f7b9c4cd742ff5cbd7e53b1484",
+    "popup.html": "3bd597cc9cf870d17b79f13809bb98a8ec1b4d7dbfaf6fbaaf071ec9253be8b2",
+    "popup.js": "6877a10e70496bc226519b260b3be716bc9ce6545e56b944346841f5a6eee265",
+    "rules.js": "d938f4f7740505b29e858bab744feb127126222a60df0093a8f68add57b977cc",
+    "stopped.html": "8cee720390e9fb347d2ba43ae57bea92607549c6a7458aa59d17b45a336a94ae"
+  },
+  "packaging_checks": [
+    "fixed identity/key/permissions",
+    "installed bytes equal canonical runtime",
+    "runtime imports resolve",
+    "no diagnostic files",
+    "ZIP CRC and safe paths"
+  ]
+}

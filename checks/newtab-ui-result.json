@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "browser": "155.0.8059.85",
+  "checks": [
+    "Pasting/replacing URL while a native grouped chrome://newtab is attaching preserves latest target with only group Cookie/Header",
+    "Native right-side new tab becomes a managed group member without terminal extension blocking",
+    "Navigation and refresh update one tab-history item with latest URL and domain",
+    "Closing/reopening reuses one record; clicking an already-open entry focuses it instead of duplicating tabs",
+    "Native group title displays only its clean label while stable identity remains recoverable",
+    "History renders page title, domain and Chrome-local cached favicon",
+    "Ordinary Profile Cookie remains unchanged"
+  ],
+  "privacy": "Fictitious loopback accounts only"
+}
